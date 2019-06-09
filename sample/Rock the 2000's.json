@@ -1,0 +1,310 @@
+{
+	"name": "Rock the 2000's",
+	"image": "https://i.scdn.co/image/8f52a637b9a50482061ef80e28d3a49762316e58",
+	"tracks": [{
+			"album": "Toxicity",
+			"song": "Chop Suey!",
+			"href": "https://api.spotify.com/v1/tracks/7kwiwQhWRBSP1PJv4ZFJUK",
+			"id": "7kwiwQhWRBSP1PJv4ZFJUK",
+			"artist": "System Of A Down"
+		}, {
+			"album": "Infest",
+			"song": "Last Resort",
+			"href": "https://api.spotify.com/v1/tracks/5W8YXBz9MTIDyrpYaCg2Ky",
+			"id": "5W8YXBz9MTIDyrpYaCg2Ky",
+			"artist": "Papa Roach"
+		}, {
+			"album": "The Better Life",
+			"song": "Kryptonite",
+			"href": "https://api.spotify.com/v1/tracks/6ZOBP3NvffbU4SZcrnt1k6",
+			"id": "6ZOBP3NvffbU4SZcrnt1k6",
+			"artist": "3 Doors Down"
+		}, {
+			"album": "By The Way (Deluxe Version)",
+			"song": "Can't Stop",
+			"href": "https://api.spotify.com/v1/tracks/3ZOEytgrvLwQaqXreDs2Jx",
+			"id": "3ZOEytgrvLwQaqXreDs2Jx",
+			"artist": "Red Hot Chili Peppers"
+		}, {
+			"album": "Three Days Grace (Deluxe Version)",
+			"song": "I Hate Everything About You",
+			"href": "https://api.spotify.com/v1/tracks/6rUp7v3l8yC4TKxAAR5Bmx",
+			"id": "6rUp7v3l8yC4TKxAAR5Bmx",
+			"artist": "Three Days Grace"
+		}, {
+			"album": "Rock Classics: The Collection",
+			"song": "Down with the Sickness",
+			"href": "https://api.spotify.com/v1/tracks/3HCh67jPy9rlNNEp1ctWtm",
+			"id": "3HCh67jPy9rlNNEp1ctWtm",
+			"artist": "Disturbed"
+		}, {
+			"album": "Appeal To Reason",
+			"song": "Savior",
+			"href": "https://api.spotify.com/v1/tracks/1vcxF91pWs9uNwDROuiCPB",
+			"id": "1vcxF91pWs9uNwDROuiCPB",
+			"artist": "Rise Against"
+		}, {
+			"album": "Phobia (Explicit Version)",
+			"song": "The Diary of Jane - Single Version",
+			"href": "https://api.spotify.com/v1/tracks/5pvJ59i7JxylN8VB24xdMs",
+			"id": "5pvJ59i7JxylN8VB24xdMs",
+			"artist": "Breaking Benjamin"
+		}, {
+			"album": "Vol. 3: The Subliminal Verses [Special Package]",
+			"song": "Duality",
+			"href": "https://api.spotify.com/v1/tracks/61mWefnWQOLf90gepjOCb3",
+			"id": "61mWefnWQOLf90gepjOCb3",
+			"artist": "Slipknot"
+		}, {
+			"album": "Hybrid Theory (Bonus Track Version)",
+			"song": "Crawling",
+			"href": "https://api.spotify.com/v1/tracks/57BrRMwf9LrcmuOsyGilwr",
+			"id": "57BrRMwf9LrcmuOsyGilwr",
+			"artist": "Linkin Park"
+		}, {
+			"album": "Trapt",
+			"song": "Headstrong",
+			"href": "https://api.spotify.com/v1/tracks/1AEYT6VxrxXPMoQUxsY0E4",
+			"id": "1AEYT6VxrxXPMoQUxsY0E4",
+			"artist": "Trapt"
+		}, {
+			"album": "The End Of Heartache",
+			"song": "A Bid Farewell",
+			"href": "https://api.spotify.com/v1/tracks/4jFzAJHwqi4sELhu09W1Ti",
+			"id": "4jFzAJHwqi4sELhu09W1Ti",
+			"artist": "Killswitch Engage"
+		}, {
+			"album": "Come What(ever) May [10th Anniversary Edition]",
+			"song": "Through Glass",
+			"href": "https://api.spotify.com/v1/tracks/5NeIONQWJ25uPylJBJiO4c",
+			"id": "5NeIONQWJ25uPylJBJiO4c",
+			"artist": "Stone Sour"
+		}, {
+			"album": "Chocolate Starfish And The Hot Dog Flavored Water",
+			"song": "Rollin' (Air Raid Vehicle)",
+			"href": "https://api.spotify.com/v1/tracks/3IV4swNduIRunHREK80owz",
+			"id": "3IV4swNduIRunHREK80owz",
+			"artist": "Limp Bizkit"
+		}, {
+			"album": "Awake",
+			"song": "Hero",
+			"href": "https://api.spotify.com/v1/tracks/4CbKVDZkYKdv69I4bCaKUq",
+			"id": "4CbKVDZkYKdv69I4bCaKUq",
+			"artist": "Skillet"
+		}, {
+			"album": "Renegades",
+			"song": "Renegades Of Funk",
+			"href": "https://api.spotify.com/v1/tracks/5YBVDvTSSSiqv7KZDeUlXA",
+			"id": "5YBVDvTSSSiqv7KZDeUlXA",
+			"artist": "Rage Against The Machine"
+		}, {
+			"album": "Mer De Noms",
+			"song": "Judith",
+			"href": "https://api.spotify.com/v1/tracks/5KDNFlHAdDJ84fhK27c35X",
+			"id": "5KDNFlHAdDJ84fhK27c35X",
+			"artist": "A Perfect Circle"
+		}, {
+			"album": "Fallen",
+			"song": "Bring Me To Life",
+			"href": "https://api.spotify.com/v1/tracks/0COqiPhxzoWICwFCS4eZcp",
+			"id": "0COqiPhxzoWICwFCS4eZcp",
+			"artist": "Evanescence"
+		}, {
+			"album": "Audioslave",
+			"song": "Cochise",
+			"href": "https://api.spotify.com/v1/tracks/1TDk2Jmi4dVZhm2dum3Jim",
+			"id": "1TDk2Jmi4dVZhm2dum3Jim",
+			"artist": "Audioslave"
+		}, {
+			"album": "A Beautiful Lie",
+			"song": "Attack",
+			"href": "https://api.spotify.com/v1/tracks/587WH6kCBOPalgEBH2Fk9U",
+			"id": "587WH6kCBOPalgEBH2Fk9U",
+			"artist": "Thirty Seconds To Mars"
+		}, {
+			"album": "Dark Horse",
+			"song": "Burn It To The Ground",
+			"href": "https://api.spotify.com/v1/tracks/1jq28NGw6wdtFKx8MBPy6C",
+			"id": "1jq28NGw6wdtFKx8MBPy6C",
+			"artist": "Nickelback"
+		}, {
+			"album": "Dysfunction (Internet Release)",
+			"song": "Mudshovel",
+			"href": "https://api.spotify.com/v1/tracks/6264zKFgXM13JuRBX4MMyD",
+			"id": "6264zKFgXM13JuRBX4MMyD",
+			"artist": "Staind"
+		}, {
+			"album": "Karma and Effect",
+			"song": "Remedy",
+			"href": "https://api.spotify.com/v1/tracks/5ynxx6zC4dgzsMHLYQ04Dc",
+			"id": "5ynxx6zC4dgzsMHLYQ04Dc",
+			"artist": "Seether"
+		}, {
+			"album": "Scars & Souvenirs",
+			"song": "Bad Girlfriend",
+			"href": "https://api.spotify.com/v1/tracks/5ynWvN3bQymHVThxutO4hG",
+			"id": "5ynWvN3bQymHVThxutO4hG",
+			"artist": "Theory of a Deadman"
+		}, {
+			"album": "Moving Forward In Reverse: Greatest Hits",
+			"song": "Click Click Boom",
+			"href": "https://api.spotify.com/v1/tracks/55SUneDPq3ZOrJi8sVG78G",
+			"id": "55SUneDPq3ZOrJi8sVG78G",
+			"artist": "Saliva"
+		}, {
+			"album": "Wonder What's Next",
+			"song": "The Red",
+			"href": "https://api.spotify.com/v1/tracks/1gyee1JuFFiP476LQpRMYU",
+			"id": "1gyee1JuFFiP476LQpRMYU",
+			"artist": "Chevelle"
+		}, {
+			"album": "The Golden Age Of Grotesque",
+			"song": "mOBSCENE",
+			"href": "https://api.spotify.com/v1/tracks/1YVuJrfHHmD4ilULhAVqPW",
+			"id": "1YVuJrfHHmD4ilULhAVqPW",
+			"artist": "Marilyn Manson"
+		}, {
+			"album": "Anthology",
+			"song": "Smooth Criminal",
+			"href": "https://api.spotify.com/v1/tracks/5z6xHjCZr7a7AIcy8sPBKy",
+			"id": "5z6xHjCZr7a7AIcy8sPBKy",
+			"artist": "Alien Ant Farm"
+		}, {
+			"album": "The Sound of Madness",
+			"song": "Sound of Madness",
+			"href": "https://api.spotify.com/v1/tracks/0W9Xvd4Qx1aZPxEi94vgRY",
+			"id": "0W9Xvd4Qx1aZPxEi94vgRY",
+			"artist": "Shinedown"
+		}, {
+			"album": "White Pony (U.S. Version)",
+			"song": "Change (In the House of Flies) - In The House Of Flies LP Version",
+			"href": "https://api.spotify.com/v1/tracks/51c94ac31swyDQj9B3Lzs3",
+			"id": "51c94ac31swyDQj9B3Lzs3",
+			"artist": "Deftones"
+		}, {
+			"album": "Tri-Polar (International Version)",
+			"song": "You're Going Down",
+			"href": "https://api.spotify.com/v1/tracks/5FQXMRDSTkn9fowDJ3kZo8",
+			"id": "5FQXMRDSTkn9fowDJ3kZo8",
+			"artist": "Sick Puppies"
+		}, {
+			"album": "Extreme Behavior",
+			"song": "Lips Of An Angel",
+			"href": "https://api.spotify.com/v1/tracks/40LQiUUUKXVGyNs09lHVjW",
+			"id": "40LQiUUUKXVGyNs09lHVjW",
+			"artist": "Hinder"
+		}, {
+			"album": "Neon Ballroom",
+			"song": "Anthem for the Year 2000",
+			"href": "https://api.spotify.com/v1/tracks/3LMpZcOhaz2CUX5rfoCNRs",
+			"id": "3LMpZcOhaz2CUX5rfoCNRs",
+			"artist": "Silverchair"
+		}, {
+			"album": "15",
+			"song": "Crazy Bitch",
+			"href": "https://api.spotify.com/v1/tracks/5XfQTbialQHn9PhDb0p85H",
+			"id": "5XfQTbialQHn9PhDb0p85H",
+			"artist": "Buckcherry"
+		}, {
+			"album": "DECEMBERUNDERGROUND",
+			"song": "Miss Murder",
+			"href": "https://api.spotify.com/v1/tracks/0Ti2dlF2xLjXblvdU5fCxM",
+			"id": "0Ti2dlF2xLjXblvdU5fCxM",
+			"artist": "AFI"
+		}, {
+			"album": "Untouchables",
+			"song": "Here to Stay",
+			"href": "https://api.spotify.com/v1/tracks/5NHTtXGCdO7ul16xr0q93w",
+			"id": "5NHTtXGCdO7ul16xr0q93w",
+			"artist": "Korn"
+		}, {
+			"album": "Good Apollo I'm Burning Star IV Volume One: From Fear Through The Eyes Of Madness",
+			"song": "Welcome Home",
+			"href": "https://api.spotify.com/v1/tracks/42GP0xKtkolBnmqQRvSllO",
+			"id": "42GP0xKtkolBnmqQRvSllO",
+			"artist": "Coheed and Cambria"
+		}, {
+			"album": "Morning View",
+			"song": "Wish You Were Here",
+			"href": "https://api.spotify.com/v1/tracks/61qn7uoDsuswZs5p2DkFiP",
+			"id": "61qn7uoDsuswZs5p2DkFiP",
+			"artist": "Incubus"
+		}, {
+			"album": "Good Times, Bad Times - Ten Years of Godsmack",
+			"song": "Awake",
+			"href": "https://api.spotify.com/v1/tracks/0qj98qLGaiaOwrB3sFZvRt",
+			"id": "0qj98qLGaiaOwrB3sFZvRt",
+			"artist": "Godsmack"
+		}, {
+			"album": "Satellite (U.S. Version WEA Distribution)",
+			"song": "Boom",
+			"href": "https://api.spotify.com/v1/tracks/5DooySfCD1xCJ49gQm9rx7",
+			"id": "5DooySfCD1xCJ49gQm9rx7",
+			"artist": "P.O.D."
+		}, {
+			"album": "Come Clean (Repackaged International Version)",
+			"song": "Control",
+			"href": "https://api.spotify.com/v1/tracks/52TJj2HNylnPNjneS26Gnm",
+			"id": "52TJj2HNylnPNjneS26Gnm",
+			"artist": "Puddle Of Mudd"
+		}, {
+			"album": "Ashes Of The Wake",
+			"song": "Laid to Rest",
+			"href": "https://api.spotify.com/v1/tracks/0lCwaZYSRy6q0jLmnYiQxi",
+			"id": "0lCwaZYSRy6q0jLmnYiQxi",
+			"artist": "Lamb of God"
+		}, {
+			"album": "Life",
+			"song": "Die MF Die",
+			"href": "https://api.spotify.com/v1/tracks/5bU4KX47KqtDKKaLM4QCzh",
+			"id": "5bU4KX47KqtDKKaLM4QCzh",
+			"artist": "Dope"
+		}, {
+			"album": "The Greyest Of Blue Skies",
+			"song": "Drag You Down",
+			"href": "https://api.spotify.com/v1/tracks/3JdtnzG1qxSugpXwNuoo9v",
+			"id": "3JdtnzG1qxSugpXwNuoo9v",
+			"artist": "Finger Eleven"
+		}, {
+			"album": "The Fast And The Furious Soundtrack Collection",
+			"song": "Crawling In The Dark",
+			"href": "https://api.spotify.com/v1/tracks/5yifpdoey6bRSQAoheU5kt",
+			"id": "5yifpdoey6bRSQAoheU5kt",
+			"artist": "Hoobastank"
+		}, {
+			"album": "Sinner",
+			"song": "Bodies",
+			"href": "https://api.spotify.com/v1/tracks/7CpbhqKUedOIrcvc94p60Y",
+			"id": "7CpbhqKUedOIrcvc94p60Y",
+			"artist": "Drowning Pool"
+		}, {
+			"album": "Animosity",
+			"song": "Praise",
+			"href": "https://api.spotify.com/v1/tracks/3fXY1GLVF8QmzbTfNTTaFr",
+			"id": "3fXY1GLVF8QmzbTfNTTaFr",
+			"artist": "Sevendust"
+		}, {
+			"album": "Welcome",
+			"song": "Poem",
+			"href": "https://api.spotify.com/v1/tracks/7mQwxVogsnpR3h6AJLQLlR",
+			"id": "7mQwxVogsnpR3h6AJLQLlR",
+			"artist": "Taproot"
+		}, {
+			"album": "Flyleaf",
+			"song": "I'm So Sick",
+			"href": "https://api.spotify.com/v1/tracks/3v0ylYF51SKkgAi4PrfKTq",
+			"id": "3v0ylYF51SKkgAi4PrfKTq",
+			"artist": "Flyleaf"
+		}, {
+			"album": "The Poison (Deluxe Version)",
+			"song": "Tears Don't Fall",
+			"href": "https://api.spotify.com/v1/tracks/3iWlbqAaoIR7H7gyO3a6rV",
+			"id": "3iWlbqAaoIR7H7gyO3a6rV",
+			"artist": "Bullet For My Valentine"
+		}
+	],
+	"href": "https://api.spotify.com/v1/playlists/3pGcBQlq94eOjoKLG2NoQi",
+	"followersTotal": 54,
+	"type": "playlist",
+	"id": "3pGcBQlq94eOjoKLG2NoQi"
+}

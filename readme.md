@@ -1,14 +1,47 @@
-# Go JSArray
+# Go-JSArray
 
-A utility for bla
+`Go-JSArray` is a library for processing array like in javascript.
 
-# Installing
+  - Support any data type (using `interface{}`)
+  - Support method chaining
 
+Supported methods:
+- `Every`
+- `Fill`
+- `Filter`
+- `Find`
+- `FindIndex`
+- `Flat`
+- `ForEach`
+- `Get`
+- `Includes`
+- `IndexOf`
+- `Join`
+- `LastIndexOf`
+- `Length`
+- `Map`
+- `Pop`
+- `Push`
+- `Reduce`
+- `ReduceRight`
+- `Reverse`
+- `Shift`
+- `Slice`
+- `Some`
+- `Sort`
+- `Unshift`
+
+## Installation
 ```
 go get -u github.com/gunawan-pad/go-jsarray
 ```
 
-# Examples
+## Todos
+
+ - Write MORE Tests
+ - Generate code for another data type (string, int etc.) for better performancs
+ 
+## Examples
 
 ```go
 import (
@@ -53,7 +86,7 @@ arrResult := arr.
 fmt.Println(arrResult) // [2, 4, 6, 8, 10, 8, 12]
 ```
 
-Method chaining:
+### Method chaining
 
 ```go
 arrResult := jsarray.NewArray(array1).
@@ -70,7 +103,7 @@ fmt.Println(arrResult) // [6 8 10 8 12]
     
 ```
 
-Sorting string array:
+### Sorting string array:
 
 ```go
 arr := jsarray.NewArray(arrString)
@@ -81,3 +114,61 @@ arrResult := arr.Sort(func(a, b interface{}) bool {
 fmt.Println(arrResult) // ["dua", "empat", "empat", "enam", "lima", "satu", "tiga"]
 
 ```
+
+### Processing JSON file
+
+```go
+func TestJSArrayJSONFile() {
+	type SongInfo struct {
+		Album  string `json:"album"`
+		Song   string `json:"song"`
+		Href   string `json:"href"`
+		ID     string `json:"id"`
+		Artist string `json:"artist"`
+	}
+	type Playlist struct {
+		Name           string     //`json:"name"`
+		Image          string     `json:"image"`
+		Href           string     `json:"href"`
+		FollowersTotal int64      `json:"followersTotal"`
+		Type           string     //`json:"type"`
+		ID             string     //`json:"id"`
+		Tracks         []SongInfo //`json:"tracks"`
+	}
+
+	file := `Rock the 2000's.json`
+	var data Playlist
+
+	byt, err := ioutil.ReadFile(file)
+	if err != nil {
+		panic(err)
+	}
+
+	err = json.Unmarshal(byt, &data)
+	if err != nil {
+		panic(err)
+	}
+
+	arr := jsarray.NewArray(data.Tracks).
+		// filter tracks by artist's name started with S
+		Filter(func(item interface{}, index int, array []interface{}) bool {
+			artist := item.(SongInfo).Artist
+			return strings.HasPrefix(artist, "S")
+		}).
+		// sort tracks by song title ascending
+		Sort(func(a, b interface{}) bool {
+			sia := a.(SongInfo)
+			sib := b.(SongInfo)
+			return sia.Song < sib.Song
+		}).
+		Get(false).([]interface{})
+
+	fmt.Println(arr)
+	byt, _ = json.Marshal(arr)
+	ioutil.WriteFile("testfilter.json", byt, 0777)
+}
+```
+
+## License
+This work is published under the MIT license.
+Please see the `LICENSE` file for details.

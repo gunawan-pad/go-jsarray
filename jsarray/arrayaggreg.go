@@ -10,14 +10,15 @@ import (
 
 // type T interface{}
 
-type ItemArr []interface{}
+// type ItemArr []interface{}
 
 type AUFilterFunc func(item interface{}, index int, array []interface{}) bool
 type AUMapFunc func(item interface{}, index int, array []interface{}) interface{}
 type AUReduceFunc func(prev, current interface{}, index int, array []interface{}) interface{}
 
-type AULessFunc func(i, j interface{}) bool
+type AULessFunc func(firstEl, secondEl interface{}) bool
 
+// Sorter is a helper for sort method
 type Sorter struct {
 	array    []interface{}
 	LessFunc AULessFunc
@@ -45,7 +46,7 @@ type Array struct {
 	_sorter Sorter
 }
 
-// NewArray is constructor
+// NewArray is constructor, creates Array from array of any type
 func NewArray(array interface{} /*, arrayLen int*/) *Array {
 	// kind: array item data type
 	arrInterface, ok, reflType := ConvertInterfaceToArrayInterface(array)
@@ -59,8 +60,7 @@ func NewArray(array interface{} /*, arrayLen int*/) *Array {
 	}
 }
 
-// NewArrayFromInterfaceArray is constructor from Array of interface
-// TODO: create reference
+// NewArrayFromInterfaceArray is constructor, creates Array from array of interface
 func NewArrayFromInterfaceArray(array []interface{} /*, arrayLen int*/) *Array {
 	return &Array{
 		_array: array,
@@ -69,7 +69,7 @@ func NewArrayFromInterfaceArray(array []interface{} /*, arrayLen int*/) *Array {
 	}
 }
 
-// Get to get the internal array (_array)
+// Get to get the result/internal array as interface{}
 // create a copy
 func (pa *Array) Get(createCopy bool) interface{} {
 	if !createCopy {
@@ -94,6 +94,8 @@ func (pa *Array) Get(createCopy bool) interface{} {
 	*/
 }
 
+// Map method creates a new array with the results of calling a provided function
+// on every element in the calling array.
 func (pa *Array) Map(callbackfn AUMapFunc) *Array {
 	_array := pa._array
 	var returnArray = make([]interface{}, len(_array))
@@ -106,6 +108,7 @@ func (pa *Array) Map(callbackfn AUMapFunc) *Array {
 	return pa
 }
 
+// ForEach method executes a provided function once for each array element.
 func (pa *Array) ForEach(callbackfn AUMapFunc) {
 	_array := pa._array
 
@@ -114,6 +117,7 @@ func (pa *Array) ForEach(callbackfn AUMapFunc) {
 	}
 }
 
+// Find method returns the value of the first element in the array that satisfies the provided testing function. Otherwise nil is returned.
 func (pa *Array) Find(predicate AUFilterFunc) interface{} {
 	_array := pa._array
 
@@ -126,6 +130,7 @@ func (pa *Array) Find(predicate AUFilterFunc) interface{} {
 	return nil
 }
 
+// FindIndex method returns the index of the first element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
 func (pa *Array) FindIndex(predicate AUFilterFunc) int {
 	_array := pa._array
 
@@ -138,6 +143,7 @@ func (pa *Array) FindIndex(predicate AUFilterFunc) int {
 	return -1
 }
 
+// Filter method creates a new array with all elements that pass the test implemented by the provided function
 func (pa *Array) Filter(callbackfn AUFilterFunc) *Array {
 
 	var returnArray []interface{}
@@ -153,6 +159,7 @@ func (pa *Array) Filter(callbackfn AUFilterFunc) *Array {
 	return pa
 }
 
+// Reduce method executes a reducer function (that you provide) on each element of the array, resulting in a single output value.
 func (pa *Array) Reduce(callbackfn AUReduceFunc, initialValue interface{}) interface{} {
 	var ret = initialValue
 	_array := pa._array
@@ -164,6 +171,7 @@ func (pa *Array) Reduce(callbackfn AUReduceFunc, initialValue interface{}) inter
 	return ret
 }
 
+// ReduceRight method applies a function against an accumulator and each value of the array (from right-to-left) to reduce it to a single value.
 func (pa *Array) ReduceRight(callbackfn AUReduceFunc, initialValue interface{}) interface{} {
 	var ret = initialValue
 	_array := pa._array
@@ -176,6 +184,8 @@ func (pa *Array) ReduceRight(callbackfn AUReduceFunc, initialValue interface{}) 
 	return ret
 }
 
+// Some method tests whether at least one element in the array passes the test implemented by the provided function. It returns a Boolean value.
+// Note: This method returns false for any condition put on an empty array.
 func (pa *Array) Some(callbackfn AUFilterFunc) bool {
 	array := pa._array
 
@@ -188,6 +198,8 @@ func (pa *Array) Some(callbackfn AUFilterFunc) bool {
 	return false
 }
 
+// Every method tests whether all elements in the array pass the test implemented by the provided function. It returns a Boolean value.
+// Note: This method returns true for any condition put on an empty array.
 func (pa *Array) Every(callbackfn AUFilterFunc) bool {
 	array := pa._array
 	for idx, item := range array {
@@ -199,6 +211,8 @@ func (pa *Array) Every(callbackfn AUFilterFunc) bool {
 	return true
 }
 
+// Join method creates and returns a new string by concatenating all of the elements in an array (or an array-like object), separated by separator string.
+// If the array has only one item, then that item will be returned without using the separator.
 func (pa *Array) Join(separator string) string {
 	array := pa._array
 	// var ret bytes.Buffer
@@ -215,10 +229,12 @@ func (pa *Array) Join(separator string) string {
 	return ret.String()
 }
 
+// Includes method determines whether an array includes a certain value among its entries, returning true or false as appropriate.
 func (pa *Array) Includes(searchElement interface{}) bool {
 	return pa.IndexOf(searchElement, 0) > -1
 }
 
+// IndexOf method returns the first index at which a given element can be found in the array, or -1 if it is not present.
 func (pa *Array) IndexOf(searchElement interface{}, fromIndex int) int {
 	array := pa._array
 
@@ -235,6 +251,7 @@ func (pa *Array) IndexOf(searchElement interface{}, fromIndex int) int {
 	return -1
 }
 
+// LastIndexOf method returns the last index at which a given element can be found in the array, or -1 if it is not present. The array is searched backwards, starting at fromIndex.
 func (pa *Array) LastIndexOf(searchElement interface{}, fromIndex int) int {
 	array := pa._array
 	if fromIndex > (len(array) - 1) {
@@ -255,6 +272,7 @@ func (pa *Array) LastIndexOf(searchElement interface{}, fromIndex int) int {
 	return -1
 }
 
+// Fill method fills (modifies) all the elements of an array from a start index (default zero) to an end index (default array length) with a static value. It returns the modified array.
 func (pa *Array) Fill(value interface{}, start, end int) *Array {
 	array := pa._array
 	for index := range array {
@@ -266,6 +284,7 @@ func (pa *Array) Fill(value interface{}, start, end int) *Array {
 	return pa
 }
 
+// Reverse method reverses an array in place. The first array element becomes the last, and the last array element becomes the first.
 func (pa *Array) Reverse() *Array {
 	array := pa._array
 	var returnArray = make([]interface{}, len(array))
@@ -301,8 +320,7 @@ func IterateNestedArray(
 	}
 }
 
-// FlatArray creates a new array with all sub-array elements
-// concatenated into it recursively up to specified depth
+// FlatArray function creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
 func FlatArray(inputArray []interface{}, depth int) (ret []interface{}) {
 	ret = []interface{}{}
 
@@ -313,8 +331,7 @@ func FlatArray(inputArray []interface{}, depth int) (ret []interface{}) {
 	return
 }
 
-// Flat creates a new array with all sub-array elements
-// concatenated into it recursively up to specified depth
+// Flat method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
 func (pa *Array) Flat(depth int) *Array {
 	res := FlatArray(pa._array, depth)
 	pa._array = res
@@ -322,6 +339,7 @@ func (pa *Array) Flat(depth int) *Array {
 	return pa
 }
 
+// Sort method sorts the elements of an array in place and returns the sorted array.
 func (pa *Array) Sort(comparefn AULessFunc) *Array {
 	array := pa._array
 
@@ -333,7 +351,73 @@ func (pa *Array) Sort(comparefn AULessFunc) *Array {
 	return pa
 }
 
-// TODO:
-// -concat, flatMap , sort
-// lastIndexOf, pop,push,
-// shift,slice, splice
+// Shift method removes the first element from an array and returns that removed element. This method changes the length of the array.
+func (pa *Array) Shift() interface{} {
+	if len(pa._array) == 0 {
+		return nil
+	}
+
+	ret := pa._array[0]
+	pa._array = pa._array[1:]
+
+	return ret
+}
+
+// Unshift method adds one or more elements to the beginning of an array and returns the new length of the array.
+func (pa *Array) Unshift(elements ...interface{}) int {
+	pa._array = append(elements, pa._array...)
+
+	return len(pa._array)
+}
+
+// Pop method removes the last element from an array and returns that element. This method changes the length of the array.
+func (pa *Array) Pop() interface{} {
+
+	if len(pa._array) == 0 {
+		return nil
+	}
+
+	pos := len(pa._array) - 1
+	ret := pa._array[pos]
+	pa._array = pa._array[:pos]
+
+	return ret
+}
+
+// Push method adds one or more elements to the end of an array and returns the new length of the array.
+func (pa *Array) Push(elements ...interface{}) int {
+	pa._array = append(pa._array, elements...)
+
+	return len(pa._array)
+}
+
+// Slice method returns a shallow copy of a portion of an array into a new array object selected from begin to end (end not included). The original array will not be modified.
+func (pa *Array) Slice(begin, end int) []interface{} {
+	if end < 0 {
+		end = len(pa._array) + end
+	}
+
+	if begin < 0 {
+		begin = len(pa._array) + begin
+	}
+
+	if begin < 0 {
+		begin = 0
+	}
+
+	if end > len(pa._array) {
+		end = len(pa._array)
+	}
+
+	// fmt.Println(begin, end)
+
+	if begin > end {
+		return []interface{}{}
+	}
+	return pa._array[begin:end]
+}
+
+// Length method returns the length of the internal array
+func (pa *Array) Length() int {
+	return len(pa._array)
+}
