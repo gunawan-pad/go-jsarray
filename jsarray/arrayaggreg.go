@@ -15,7 +15,7 @@ import (
 type AUForEachFunc func(item interface{}, index int, array []interface{})
 type AUFilterFunc func(item interface{}, index int, array []interface{}) bool
 type AUMapFunc func(item interface{}, index int, array []interface{}) interface{}
-type AUReduceFunc func(prev, current interface{}, index int, array []interface{}) interface{}
+type AUReduceFunc func(accumulator, currentValue interface{}, currentIndex int, array []interface{}) interface{}
 
 type AULessFunc func(firstEl, secondEl interface{}) bool
 

@@ -39,7 +39,8 @@ go get github.com/gunawan-pad/go-jsarray
 
 ## Todos
 
- - Write MORE Tests
+ - Write more methods: concat, shuffle, unique
+ - Write more tests
  - Generate code for another data type (string, int etc.) for better performance
  
 ## Examples
@@ -110,6 +111,31 @@ arrResult := jsarray.NewArray(array1). // initial array is [1 2 3 4 5 4 6]
 
 fmt.Println(arrResult) // [6 8 8 10 12]
     
+```
+### Method chaining, cleaner version
+
+```go
+funcMap := func(item interface{}, index int, array []interface{}) interface{} {
+	return item.(int) * 2
+}
+
+funcFilter := func(item interface{}, index int, array []interface{}) bool {
+	ii := item.(int)
+	return ii > 4
+}
+
+funcSort := func(a, b interface{}) bool {
+	return a.(int) < b.(int)
+}
+
+arrResult := jsarray.NewArray(array1).
+	Map(funcMap).
+	Filter(funcFilter).
+	Reverse().
+	Sort(funcSort).
+	GetResult()
+
+fmt.Println(arrResult) // [6 8 8 10 12]
 ```
 
 ### Sorting string array:
