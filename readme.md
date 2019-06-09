@@ -2,7 +2,7 @@
 
 `Go-JSArray` is a library for processing array like in javascript.
 
-  - Support any data type (using `interface{}`)
+  - Support array any data type (using `interface{}`)
   - Support method chaining
 
 Supported methods:
@@ -39,7 +39,7 @@ go get -u github.com/gunawan-pad/go-jsarray
 ## Todos
 
  - Write MORE Tests
- - Generate code for another data type (string, int etc.) for better performancs
+ - Generate code for another data type (string, int etc.) for better performance
  
 ## Examples
 
@@ -73,7 +73,7 @@ fmt.Println(arrResult) // [2, 4, 6, 8, 10, 8, 12]
 
 ```
 
-Or:
+Or using function variable:
 
 ```go
 callbackfn := func(item interface{}, index int, array []interface{}) interface{} { return item.(int) * 2 }
