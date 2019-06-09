@@ -93,15 +93,15 @@ fmt.Println(arrResult) // [2 4 6 8 10 8 12]
 
 ```go
 arrResult := jsarray.NewArray(array1). // initial array is [1 2 3 4 5 4 6]
-    Map(func(item interface{}, index int, array []interface{}) interface{} {
-        return item.(int) * 2 // tiap item/element array dikali 2
-    }). // [2 4 6 8 10 8 12]
-    Filter(func(item interface{}, index int, array []interface{}) bool {
-        ii := item.(int)
-        return ii > 4 // filter item > 4
+	Map(func(item interface{}, index int, array []interface{}) interface{} {
+		return item.(int) * 2 // tiap item/element array dikali 2
+	}). // [2 4 6 8 10 8 12]
+	Filter(func(item interface{}, index int, array []interface{}) bool {
+		ii := item.(int)
+		return ii > 4 // filter item > 4
 	}). // [6 8 10 8 12]
 	Reverse(). // [12 8 10 8 6]
-    Sort(func(a, b interface{}) bool {
+	Sort(func(a, b interface{}) bool {
 		return a.(int) < b.(int)
 	}). // [6 8 8 10 12]
 	GetResult() // Get the result array ([]interface{})
@@ -158,7 +158,7 @@ func TestJSArrayJSONFile() {
 	}
 
 	arr := jsarray.NewArray(data.Tracks).
-		// filter tracks by artist's name started with S
+		// filter tracks by artist's name started with character 'S'
 		Filter(func(item interface{}, index int, array []interface{}) bool {
 			artist := item.(SongInfo).Artist
 			return strings.HasPrefix(artist, "S")
@@ -176,6 +176,9 @@ func TestJSArrayJSONFile() {
 	// Save result array to json file: "testfilter.json"
 	ioutil.WriteFile("testfilter.json", byt, 0777)
 }
+
+// Execute the function
+TestJSArrayJSONFile()
 ```
 
 ## License
