@@ -94,6 +94,11 @@ func (pa *Array) Get(createCopy bool) interface{} {
 	*/
 }
 
+// GetResult to get the result/internal array (array of interface{})
+func (pa *Array) GetResult() []interface{} {
+	return pa._array
+}
+
 // Map method creates a new array with the results of calling a provided function
 // on every element in the calling array.
 func (pa *Array) Map(callbackfn AUMapFunc) *Array {
@@ -117,7 +122,8 @@ func (pa *Array) ForEach(callbackfn AUMapFunc) {
 	}
 }
 
-// Find method returns the value of the first element in the array that satisfies the provided testing function. Otherwise nil is returned.
+// Find method returns the value of the first element in the array
+// that satisfies the provided testing function. Otherwise nil is returned.
 func (pa *Array) Find(predicate AUFilterFunc) interface{} {
 	_array := pa._array
 
@@ -130,7 +136,9 @@ func (pa *Array) Find(predicate AUFilterFunc) interface{} {
 	return nil
 }
 
-// FindIndex method returns the index of the first element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
+// FindIndex method returns the index of the first element in the array
+// that satisfies the provided testing function. Otherwise, it returns -1,
+// indicating that no element passed the test.
 func (pa *Array) FindIndex(predicate AUFilterFunc) int {
 	_array := pa._array
 
