@@ -124,6 +124,18 @@ fmt.Println(arrResult) // [dua empat empat enam lima satu tiga]
 
 ```
 
+### Calculating sum of an array 
+```go
+// array1    = []int{1, 2, 3, 4, 5, 4, 6} 
+
+array1Sum := jsarray.NewArray(array1).
+		Reduce(func(tot, item interface{}, index int, array []interface{}) interface{} {
+			return tot.(int) + item.(int)
+		}, 0) // 25
+
+fmt.Printf("Sum of array1 is %d\n", array1Sum) // Sum of array1 is 25
+```
+
 ### Processing JSON file
 
 ```go
@@ -148,7 +160,7 @@ func TestJSArrayJSONFile() {
 	file := `Rock the 2000's.json`
 	var data Playlist
 
-	// Read json file
+	// Open and read json file
 	byt, err := ioutil.ReadFile(file)
 	if err != nil {
 		panic(err)

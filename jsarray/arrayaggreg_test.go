@@ -84,7 +84,7 @@ func TestAGMap(t *testing.T) {
 	arr := NewArrayFromInterfaceArray(array2)
 	arrResult := arr.
 		Map(callbackfn).
-		Get(true).([]interface{})
+		GetResult()
 
 	fmt.Println(arrResult)
 	var arrCompare = []interface{}{2, 4, 6, 8, 10, 8, 12}
@@ -123,7 +123,7 @@ func TestAGFilter(t *testing.T) {
 			ii := item.(int)
 			return ii > 4
 		}).
-		Get(false).([]interface{})
+		GetResult()
 
 	fmt.Println(arrResult)
 	var arrCompare = []interface{}{5, 6}
@@ -151,7 +151,7 @@ func TestAGSort(t *testing.T) {
 	arr := NewArray(arrString)
 	arrResult := arr.Sort(func(a, b interface{}) bool {
 		return a.(string) < b.(string)
-	}).Get(false).([]interface{})
+	}).GetResult()
 
 	fmt.Println(arrResult)
 	var arrCompare = []interface{}{"dua", "empat", "empat", "enam", "lima", "satu", "tiga"}
@@ -210,9 +210,14 @@ func TestAGSlice(t *testing.T) {
 
 func BenchmarkJoin(b *testing.B) {
 	arr := NewArrayFromInterfaceArray(array2)
+	// ln := arr.Length()
 
 	for i := 0; i < b.N; i++ {
-		arr.Join(", ")
+		// arr.Join(", ")
+		arr.Reduce(func(tot, item interface{}, index int, array []interface{}) interface{} {
+			// ii := item.(int)      //* 2
+			return tot.(int) + item.(int) // tot.(string) + fmt.Sprintf("%d", ii)
+		}, 0)
 	}
 }
 
@@ -223,6 +228,6 @@ func BenchmarkFilter(b *testing.B) {
 		_ = arr.Filter(func(item interface{}, index int, array []interface{}) bool {
 			ii := item.(int)
 			return ii > 4
-		}).Get(false).([]interface{})
+		}).GetResult()
 	}
 }

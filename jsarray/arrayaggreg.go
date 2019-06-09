@@ -12,6 +12,7 @@ import (
 
 // type ItemArr []interface{}
 
+type AUForEachFunc func(item interface{}, index int, array []interface{})
 type AUFilterFunc func(item interface{}, index int, array []interface{}) bool
 type AUMapFunc func(item interface{}, index int, array []interface{}) interface{}
 type AUReduceFunc func(prev, current interface{}, index int, array []interface{}) interface{}
@@ -69,8 +70,8 @@ func NewArrayFromInterfaceArray(array []interface{} /*, arrayLen int*/) *Array {
 	}
 }
 
-// Get to get the result/internal array as interface{}
-// create a copy
+// Get to get the result/internal array as interface{}.
+// Obsolete method, use GetResult instead
 func (pa *Array) Get(createCopy bool) interface{} {
 	if !createCopy {
 		return interface{}(pa._array)
@@ -114,7 +115,7 @@ func (pa *Array) Map(callbackfn AUMapFunc) *Array {
 }
 
 // ForEach method executes a provided function once for each array element.
-func (pa *Array) ForEach(callbackfn AUMapFunc) {
+func (pa *Array) ForEach(callbackfn AUForEachFunc) {
 	_array := pa._array
 
 	for idx, item := range _array {
