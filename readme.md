@@ -66,13 +66,15 @@ var (
 	}
 )
 
-// Map, using function literal
-arr := jsarray.NewArray(array1)
-arrResult := arr.Map(func(item interface{}, index int, array []interface{}) interface{} {
-    return item.(int) * 2
-}).GetResult()
+func main() {
+	// Map, using function literal
+	arr := jsarray.NewArray(array1)
+	arrResult := arr.Map(func(item interface{}, index int, array []interface{}) interface{} {
+		return item.(int) * 2
+	}).GetResult()
 
-fmt.Println(arrResult) // [2 4 6 8 10 8 12]
+	fmt.Println(arrResult) // [2 4 6 8 10 8 12]
+}
 
 ```
 
