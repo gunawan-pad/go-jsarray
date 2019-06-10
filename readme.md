@@ -16,8 +16,6 @@ Supported methods:
 - `FindIndex`
 - `Flat`
 - `ForEach`
-- `Get`
-- `GetResult`
 - `Includes`
 - `IndexOf`
 - `Join`
@@ -216,7 +214,7 @@ func TestJSArrayJSONFile() {
 
 	fmt.Println(arr)
 	byt, _ = json.Marshal(arr)
-	
+
 	// Save result array to json file: "testfilter.json"
 	ioutil.WriteFile("testfilter.json", byt, 0777)
 }
