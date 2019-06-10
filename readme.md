@@ -5,6 +5,9 @@
   - Support array any data type (using internal array of `interface{}`)
   - Support method chaining
 
+![golang](https://img.shields.io/badge/go-language-blue.svg)
+![MIT](https://img.shields.io/badge/license-MIT-orange.svg)
+
 Supported methods:
 - `Every`
 - `Fill`
@@ -213,6 +216,7 @@ func TestJSArrayJSONFile() {
 
 	fmt.Println(arr)
 	byt, _ = json.Marshal(arr)
+	
 	// Save result array to json file: "testfilter.json"
 	ioutil.WriteFile("testfilter.json", byt, 0777)
 }
@@ -222,5 +226,4 @@ TestJSArrayJSONFile()
 ```
 
 ## License
-This work is published under the MIT license.
-Please see the `LICENSE` file for details.
+Copyright (c) 2019 Gunawan Pad. This work is published under the MIT license. Please see the `LICENSE` file for details.
