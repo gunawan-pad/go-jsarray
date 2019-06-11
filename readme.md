@@ -2,10 +2,10 @@
 
 `Go-JSArray` is a library for processing golang array like in javascript.
 
-  - Support array any data type (using internal array of `interface{}`)
+  - Support array of any data type (using internal array of `interface{}`)
   - Support method chaining
 
-![golang](https://img.shields.io/badge/go-language-blue.svg)
+![golang](https://img.shields.io/badge/Go-language-blue.svg?logo=go)
 ![MIT](https://img.shields.io/badge/license-MIT-orange.svg)
 
 Supported methods:
@@ -184,11 +184,10 @@ func TestJSArrayJSONFile() {
 		Tracks         []SongInfo //`json:"tracks"`
 	}
 
-	file := `Rock the 2000's.json`
 	var data Playlist
 
 	// Open and read json file
-	byt, err := ioutil.ReadFile(file)
+	byt, err := ioutil.ReadFile(`Rock the 2000's.json`)
 	if err != nil {
 		panic(err)
 	}
