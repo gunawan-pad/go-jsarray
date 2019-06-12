@@ -43,3 +43,9 @@ func FlatArray(inputArray []interface{}, depth int) (ret []interface{}) {
 
 	return
 }
+
+// IsArray checks if a variable is a slice or an array
+func IsArray(variable interface{}) bool {
+	kind := reflect.ValueOf(variable).Kind()
+	return kind == reflect.Slice || kind == reflect.Array
+}

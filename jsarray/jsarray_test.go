@@ -7,8 +7,9 @@ import (
 )
 
 var (
-	array1    = []int{1, 2, 3, 4, 5, 4, 6}         // int array
-	array2    = []interface{}{1, 2, 3, 4, 5, 4, 6} // interface array
+	array1 = []int{1, 2, 3, 4, 5, 4, 6}         // int array
+	array2 = []interface{}{1, 2, 3, 4, 5, 4, 6} // interface array
+
 	arrString = []string{
 		"satu", "dua", "tiga", "empat", "lima", "empat", "enam",
 	}
@@ -20,10 +21,25 @@ var (
 		[]interface{}{51, 52, 53},
 	}
 
-	arrayBig = []int{1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 2, 3, 4, 5, 4, 6, 3, 4, 5, 4, 6, 4, 5, 4, 6, 5, 4, 6, 4, 6, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 2, 3, 4, 5, 4, 6, 3, 4, 5, 4, 6, 4, 5, 4, 6, 5, 4, 6, 4, 6, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 2, 3, 4, 5, 4, 6, 3, 4, 5, 4, 6, 4, 5, 4, 6, 5, 4, 6, 4, 6, 6}
+	arrayBig = []int{1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4,
+		5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5,
+		4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4,
+		6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 2, 3, 4, 5, 4, 6, 3,
+		4, 5, 4, 6, 4, 5, 4, 6, 5, 4, 6, 4, 6, 6, 1, 2, 3, 4, 5, 4, 6, 1,
+		2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2,
+		3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3,
+		4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4,
+		5, 4, 6, 2, 3, 4, 5, 4, 6, 3, 4, 5, 4, 6, 4, 5, 4, 6, 5, 4, 6, 4,
+		6, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4,
+		6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6,
+		1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 1,
+		2, 3, 4, 5, 4, 6, 1, 2, 3, 4, 5, 4, 6, 2, 3, 4, 5, 4, 6, 3, 4, 5,
+		4, 6, 4, 5, 4, 6, 5, 4, 6, 4, 6, 6}
 )
 
 func CompareArray(arrResult, arrCompare []interface{}) bool {
+	return !reflect.DeepEqual(arrResult, arrCompare)
+
 	for i, _ := range arrResult {
 		if arrResult[i] != arrCompare[i] {
 			return true
@@ -43,7 +59,8 @@ func TestAGIndexOf(t *testing.T) {
 	}
 
 	fmt.Println(arrResult)
-	var arrCompare = []interface{}{3, 3, 3, 3, 3, 3, 3, 5, 5, -1, 3, 3, 3, 3, 5, 5, -1, -1, -1, -1}
+	var arrCompare = []interface{}{3, 3, 3, 3, 3, 3, 3, 5, 5, -1, 3,
+		3, 3, 3, 5, 5, -1, -1, -1, -1}
 	err := CompareArray(arrResult, arrCompare)
 
 	if err {
@@ -311,7 +328,7 @@ func TestAGCopyWithin(t *testing.T) {
 
 /////////////////////// BENCHMARK ////////////////////////
 
-func BenchmarkJoin(b *testing.B) {
+func BenchmarkA(b *testing.B) {
 	arr := NewArrayFromInterfaceArray(array2)
 	// ln := arr.Length()
 
@@ -324,7 +341,7 @@ func BenchmarkJoin(b *testing.B) {
 	}
 }
 
-func BenchmarkFilter(b *testing.B) {
+func BenchmarkB(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		// arr := NewArrayFromInterfaceArray(array2)
@@ -336,7 +353,7 @@ func BenchmarkFilter(b *testing.B) {
 
 		// arr.Splice(1, 2, "ho", "jaja")
 		// arr.Shuffle()
-		arr.CopyWithinp(3, 12, 34)
+		arr.CopyWithin(3, 12, 34)
 	}
 }
 
@@ -353,6 +370,12 @@ func TestArray_CopyWithin(t *testing.T) {
 		want []interface{}
 	}{
 		// TODO: Add test cases.
+		{
+			name: "test 1",
+			pa:   NewArray(array1),
+			args: args{3, 2, 4},
+			want: []interface{}{1, 2, 3, 3, 4, 4, 6},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

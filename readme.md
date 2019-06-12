@@ -47,12 +47,6 @@ Supported methods:
 go get github.com/gunawan-pad/go-jsarray
 ```
 
-## Todos
-
- - Write more methods: concat, shuffle, unique
- - Write more tests
- - Generate code for another data type (string, int etc.) for better performance
- 
 ## Examples
 
 ```go
@@ -66,9 +60,11 @@ import (
 var (
 	array1    = []int{1, 2, 3, 4, 5, 4, 6} // int array
 	array2    = []interface{}{1, 2, 3, 4, 5, 4, 6} // interface array
+	
 	arrString = []string{
 		"satu", "dua", "tiga", "empat", "lima", "empat", "enam",
 	} // string array
+
 	arrayNested = []interface{}{
 		12, 23,
 		[]interface{}{31, 32, 33, []interface{}{331, 332}, 34, 35},
@@ -80,9 +76,10 @@ var (
 func main() {
 	// Map, using function literal
 	arr := jsarray.NewArray(array1)
-	arrResult := arr.Map(func(item interface{}, index int, array []interface{}) interface{} {
+	arr = arr.Map(func(item interface{}, index int, array []interface{}) interface{} {
 		return item.(int) * 2
-	}).GetResult()
+	})
+	arrResult := arr.GetResult()
 
 	fmt.Println(arrResult) // [2 4 6 8 10 8 12]
 }
@@ -95,9 +92,7 @@ Or using function variable:
 callbackfn := func(item interface{}, index int, array []interface{}) interface{} { return item.(int) * 2 }
 
 arr := jsarray.NewArrayFromInterfaceArray(array2)
-arrResult := arr.
-    Map(callbackfn).
-    GetResult()
+arrResult := arr.Map(callbackfn).GetResult()
 
 fmt.Println(arrResult) // [2 4 6 8 10 8 12]
 ```
@@ -184,13 +179,13 @@ func TestJSArrayJSONFile() {
 		Artist string `json:"artist"`
 	}
 	type Playlist struct {
-		Name           string     //`json:"name"`
+		Name           string     `json:"name"`
 		Image          string     `json:"image"`
 		Href           string     `json:"href"`
 		FollowersTotal int64      `json:"followersTotal"`
-		Type           string     //`json:"type"`
-		ID             string     //`json:"id"`
-		Tracks         []SongInfo //`json:"tracks"`
+		Type           string     `json:"type"`
+		ID             string     `json:"id"`
+		Tracks         []SongInfo `json:"tracks"`
 	}
 
 	var data Playlist
@@ -235,4 +230,6 @@ TestJSArrayJSONFile()
 ```
 
 ## License
-Copyright (c) 2019 Gunawan Pad. This work is published under the MIT license. Please see the `LICENSE` file for details.
+Copyright (c) 2019 Gunawan Pad. 
+This work is published under the MIT license. 
+Please see the [`LICENSE`](LICENSE) file for details.

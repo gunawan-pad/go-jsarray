@@ -11,7 +11,7 @@ import (
 )
 
 // NewArray is constructor, creates Array from array of any type
-func NewArray(array interface{} /*, arrayLen int*/) *Array {
+func NewArray(array interface{}) *Array {
 	// kind: array item data type
 	arrInterface, ok, reflType := ConvertInterfaceToArrayInterface(array)
 	if !ok {
@@ -25,37 +25,11 @@ func NewArray(array interface{} /*, arrayLen int*/) *Array {
 }
 
 // NewArrayFromInterfaceArray is constructor, creates Array from array of interface
-func NewArrayFromInterfaceArray(array []interface{} /*, arrayLen int*/) *Array {
+func NewArrayFromInterfaceArray(array []interface{}) *Array {
 	return &Array{
 		_array: array,
-		// _array: arrInterface,
-		_type: nil,
+		_type:  nil,
 	}
-}
-
-// Get to get the result/internal array as interface{}.
-// Obsolete method, use GetResult instead
-func (pa *Array) Get(createCopy bool) interface{} {
-	if !createCopy {
-		return interface{}(pa._array)
-	}
-
-	var res = make([]interface{}, len(pa._array))
-	copy(res, pa._array)
-
-	return interface{}(res)
-
-	/*
-		slice := reflect.MakeSlice(reflect.SliceOf(array._type), len(res), len(res))
-		for i := 0; i < len(res); i++ {
-			// v := reflect.Indirect(reflect.ValueOf(res[i]).Convert(array._type))
-			// slice = reflect.Append(slice, v)
-
-			// slice.Index(i).Set(reflect.ValueOf(res[i]).Convert(array._type)) //.(array._type)))
-			slice.Index(i).Set(reflect.ValueOf(res[i].(array._type)))
-		}
-		return interface{}(slice)
-	*/
 }
 
 // GetResult to get the result/internal array (array of interface{})
@@ -132,7 +106,8 @@ func (pa *Array) Filter(callbackfn AUFilterFunc) *Array {
 	return pa
 }
 
-// Reduce method executes a reducer function (that you provide) on each element of the array, resulting in a single output value.
+// Reduce method executes a reducer function (that you provide)
+// on each element of the array, resulting in a single output value.
 func (pa *Array) Reduce(callbackfn AUReduceFunc, initialValue interface{}) interface{} {
 	var ret = initialValue
 	array := pa._array
@@ -144,7 +119,9 @@ func (pa *Array) Reduce(callbackfn AUReduceFunc, initialValue interface{}) inter
 	return ret
 }
 
-// ReduceRight method applies a function against an accumulator and each value of the array (from right-to-left) to reduce it to a single value.
+// ReduceRight method applies a function against an accumulator
+// and each value of the array (from right-to-left) to reduce it
+// to a single value.
 func (pa *Array) ReduceRight(callbackfn AUReduceFunc, initialValue interface{}) interface{} {
 	var ret = initialValue
 	array := pa._array
@@ -157,7 +134,8 @@ func (pa *Array) ReduceRight(callbackfn AUReduceFunc, initialValue interface{}) 
 	return ret
 }
 
-// Some method tests whether at least one element in the array passes the test implemented by the provided function. It returns a Boolean value.
+// Some method tests whether at least one element in the array
+// passes the test implemented by the provided function. It returns a Boolean value.
 // Note: This method returns false for any condition put on an empty array.
 func (pa *Array) Some(callbackfn AUFilterFunc) bool {
 	array := pa._array
@@ -171,7 +149,8 @@ func (pa *Array) Some(callbackfn AUFilterFunc) bool {
 	return false
 }
 
-// Every method tests whether all elements in the array pass the test implemented by the provided function. It returns a Boolean value.
+// Every method tests whether all elements in the array pass
+// the test implemented by the provided function. It returns a Boolean value.
 // Note: This method returns true for any condition put on an empty array.
 func (pa *Array) Every(callbackfn AUFilterFunc) bool {
 	array := pa._array
@@ -184,7 +163,8 @@ func (pa *Array) Every(callbackfn AUFilterFunc) bool {
 	return true
 }
 
-// Join method creates and returns a new string by concatenating all of the elements in an array (or an array-like object), separated by separator string.
+// Join method creates and returns a new string by concatenating
+// all of the elements in an array (or an array-like object), separated by separator string.
 // If the array has only one item, then that item will be returned without using the separator.
 func (pa *Array) Join(separator string) string {
 	array := pa._array
@@ -202,7 +182,8 @@ func (pa *Array) Join(separator string) string {
 	return ret.String()
 }
 
-// Includes method determines whether an array includes a certain value among its entries, returning true or false as appropriate.
+// Includes method determines whether an array includes a certain value
+// among its entries, returning true or false as appropriate.
 func (pa *Array) Includes(searchElement interface{}) bool {
 	return pa.IndexOf(searchElement, 0) > -1
 }
@@ -226,7 +207,8 @@ func (pa *Array) IndexOf(searchElement interface{}, fromIndex int) int {
 }
 
 // LastIndexOf method returns the last index at which a given element
-// can be found in the array, or -1 if it is not present. The array is searched backwards, starting at fromIndex.
+// can be found in the array, or -1 if it is not present. The array is
+// searched backwards, starting at fromIndex.
 func (pa *Array) LastIndexOf(searchElement interface{}, fromIndex int) int {
 	array := pa._array
 	arrLen := len(array)
@@ -235,7 +217,7 @@ func (pa *Array) LastIndexOf(searchElement interface{}, fromIndex int) int {
 		fromIndex = arrLen - 1
 	}
 	if fromIndex < 0 {
-		fromIndex = arrLen + fromIndex
+		fromIndex += arrLen
 	}
 
 	// fmt.Printf("fi:%d\n", fromIndex)
@@ -250,9 +232,34 @@ func (pa *Array) LastIndexOf(searchElement interface{}, fromIndex int) int {
 }
 
 // Fill method fills (modifies) all the elements of an array
-// from a start index (default zero) to an end index (default array length) with a static value. It returns the modified array.
+// from a start index (default zero) to an end index (default array length)
+// with a static value. It returns the modified array.
 func (pa *Array) Fill(value interface{}, start, end int) *Array {
+	// TODO: fill, negative start end
 	array := pa._array
+
+	if start < 0 || end > len(array) {
+		panic("jsarray Fill start must be >=0 and end must be <= array length")
+	}
+
+	// if start < 0 {
+	// 	if start += arrLen; start < 0 {
+	// 		start = 0
+	// 	}
+	// }
+
+	// if end < 0 {
+	// 	end += arrLen
+	// }
+
+	// if end > arrLen {
+	// 	end = arrLen
+	// }
+
+	// if start > end {
+	// 	return array
+	// }
+
 	for index := range array {
 		if index >= start && index <= end {
 			array[index] = value
@@ -278,7 +285,8 @@ func (pa *Array) Reverse() *Array {
 	return pa
 }
 
-// Flat method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+// Flat method creates a new array with all sub-array elements concatenated
+// into it recursively up to the specified depth.
 func (pa *Array) Flat(depth int) *Array {
 	res := FlatArray(pa._array, depth)
 	pa._array = res
@@ -516,6 +524,11 @@ func (pa *Array) Concat(items ...interface{}) []interface{} {
 	return resArr
 }
 
+// CopyWithin method shallow copies part of an array to another location
+// in the same array and returns it without modifying its length.
+//
+// The CopyWithin method is a mutable method. It does not alter the length
+// of the array, but it will change its content if necessary.
 func (pa *Array) CopyWithin(target, start, end int) []interface{} {
 	array := pa._array
 	arrLen := len(array)
@@ -549,13 +562,23 @@ func (pa *Array) CopyWithin(target, start, end int) []interface{} {
 
 	// fmt.Println(start, start, end)
 	pCopy := array[start:end]
-	p1 := array[0:target]
-	p2 := array[start+len(pCopy)+1:]
 
-	resArr := []interface{}{}
-	resArr = append(resArr, p1...)
-	resArr = append(resArr, pCopy...)
-	resArr = append(resArr, p2...)
+	// resArr := make([]interface{}, len(array))
+	// copy(resArr, array)
+	resArr := array // in place, pa._array modified
+	copy(resArr[target:], pCopy)
+
+	// p1 := array[0:target]
+	// p2 := array[start+len(pCopy)+1:]
+	// resArr := []interface{}{}
+	// resArr = append(resArr, p1...)
+	// resArr = append(resArr, pCopy...)
+	// resArr = append(resArr, p2...)
 
 	return resArr[:arrLen]
+}
+
+// Get method gets item at specific index
+func (pa *Array) GetItem(index int) interface{} {
+	return pa._array[index]
 }
