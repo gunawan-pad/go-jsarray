@@ -230,6 +230,6 @@ TestJSArrayJSONFile()
 ```
 
 ## License
-Copyright (c) 2019 Gunawan Pad. 
+Copyright © 2019 Gunawan Pad. 
 This work is published under the MIT license. 
 Please see the [`LICENSE`](LICENSE) file for details.
