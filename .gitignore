@@ -18,5 +18,6 @@ _cgo_export.*
 _testmain.go
 
 _todo.md
+_internal
 
 *.exe

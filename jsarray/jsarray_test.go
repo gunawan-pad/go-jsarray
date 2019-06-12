@@ -2,6 +2,7 @@ package jsarray
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 )
 
@@ -272,6 +273,42 @@ func TestAGChunk(t *testing.T) {
 	}
 }
 
+func TestAGConcat(t *testing.T) {
+	arr2 := []interface{}{
+		44, 55, 66,
+		// []interface{}{44, 55, 66},
+		[]interface{}{771, 772, []interface{}{8881, 8882}},
+	}
+
+	// // js equivalence:
+	// array1 = [1, 2, 3, 4, 5, 4, 6]
+	// res = array1.concat([44,55,66,[771,772,[8881,8882]]])
+	// JSON.stringify(res).replace(/\,/g, " ")
+
+	arr := NewArray(array1)
+	arrResult := arr.Concat(arr2)
+
+	fmt.Println(arrResult)
+	err := fmt.Sprintf("%v", arrResult) !=
+		"[1 2 3 4 5 4 6 44 55 66 [771 772 [8881 8882]]]"
+
+	if err {
+		t.Errorf("Test fails, %s", "TestAGConcat")
+	}
+}
+
+func TestAGCopyWithin(t *testing.T) {
+	arr := NewArray(array1)
+	arrResult := arr.CopyWithin(3, 2, 4)
+
+	fmt.Println(arrResult)
+	err := fmt.Sprintf("%v", arrResult) != "[1 2 3 3 4 4 6]"
+
+	if err {
+		t.Errorf("Test fails, %s", "TestAGCopyWithin")
+	}
+}
+
 /////////////////////// BENCHMARK ////////////////////////
 
 func BenchmarkJoin(b *testing.B) {
@@ -298,6 +335,30 @@ func BenchmarkFilter(b *testing.B) {
 		// }).GetResult()
 
 		// arr.Splice(1, 2, "ho", "jaja")
-		arr.Shuffle()
+		// arr.Shuffle()
+		arr.CopyWithinp(3, 12, 34)
+	}
+}
+
+func TestArray_CopyWithin(t *testing.T) {
+	type args struct {
+		target int
+		start  int
+		end    int
+	}
+	tests := []struct {
+		name string
+		pa   *Array
+		args args
+		want []interface{}
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.pa.CopyWithin(tt.args.target, tt.args.start, tt.args.end); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Array.CopyWithin() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }

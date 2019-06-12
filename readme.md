@@ -9,29 +9,38 @@
 ![MIT](https://img.shields.io/badge/license-MIT-orange.svg)
 
 Supported methods:
-- `Every`
-- `Fill`
-- `Filter`
-- `Find`
-- `FindIndex`
-- `Flat`
-- `ForEach`
-- `Includes`
-- `IndexOf`
-- `Join`
-- `LastIndexOf`
-- `Length`
-- `Map`
-- `Pop`
-- `Push`
-- `Reduce`
-- `ReduceRight`
-- `Reverse`
-- `Shift`
-- `Slice`
-- `Some`
-- `Sort`
-- `Unshift`
+- `Chunk` -> [PHP Reference](https://www.php.net/manual/en/function.array-chunk.php)
+- `Concat` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat)
+- `CopyWithin` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copywithin)
+- `Every` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every)
+- `Fill` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill)
+- `Filter` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+- `Find` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find)
+- `FindIndex` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findindex)
+- `Flat` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat)
+- `ForEach` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/foreach)
+- `Includes` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes)
+- `IndexOf` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexof)
+- `Join` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join)
+- `LastIndexOf` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastindexof)
+- `Length` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length)
+- `Map` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+- `Pop` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop)
+- `Push` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
+- `Reduce` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce)
+- `ReduceRight` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceright)
+- `Reverse` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse)
+- `Shift` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift)
+- `Shuffle` -> [PHP Reference](https://www.php.net/manual/en/function.shuffle.php)
+- `Slice` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice)
+- `Some` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some)
+- `Sort` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+- `Splice` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
+- `Split` -> [PHP Reference](https://www.php.net/manual/en/function.array-chunk.php)
+- `Unique` -> [PHP Reference](https://www.php.net/manual/en/function.array-unique.php)
+- `Unshift` -> [JS Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift)
+
+
 
 ## Installation
 ```
@@ -212,7 +221,10 @@ func TestJSArrayJSONFile() {
 		GetResult() // Get result array
 
 	fmt.Println(arr)
-	byt, _ = json.Marshal(arr)
+	byt, err = json.Marshal(arr)
+	if err != nil {
+		panic(err)
+	}
 
 	// Save result array to json file: "testfilter.json"
 	ioutil.WriteFile("testfilter.json", byt, 0777)
