@@ -49,3 +49,46 @@ func IsArray(variable interface{}) bool {
 	kind := reflect.ValueOf(variable).Kind()
 	return kind == reflect.Slice || kind == reflect.Array
 }
+
+// fixStartEnd fix start and end to valid values
+// (positive, >= array length)
+func fixStartEnd(start, end, arrLen int) (int, int) {
+	if start < 0 {
+		if start += arrLen; start < 0 {
+			start = 0
+		}
+	}
+	if end < 0 {
+		end += arrLen
+	}
+	if end < 0 {
+		end = 0
+	}
+
+	if end > arrLen {
+		end = arrLen
+	}
+
+	// if start > end {
+	// 	return 0, pa
+	// }
+
+	return start, end
+}
+
+func createArrayTest(maxIteration int,
+	pfunc func(int, int) (interface{}, []interface{}),
+) ([]interface{}, []interface{}) {
+	var methodResults, jsarrResults []interface{}
+
+	mi := maxIteration * (-1)
+	for i := mi; i < maxIteration; i++ {
+		for j := mi; j < maxIteration; j++ {
+			methodRes, parrRes := pfunc(i, j) // arr.Splice(start, end)
+			methodResults = append(methodResults, methodRes)
+			jsarrResults = append(jsarrResults, parrRes)
+		}
+	}
+
+	return methodResults, jsarrResults
+}

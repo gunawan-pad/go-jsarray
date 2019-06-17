@@ -127,8 +127,7 @@ func (pa *Array) ReduceRight(callbackfn AUReduceFunc, initialValue interface{}) 
 	array := pa._array
 
 	for idx := len(array) - 1; idx >= 0; idx-- {
-		item := array[idx]
-		ret = callbackfn(ret, item, idx, array)
+		ret = callbackfn(ret, array[idx], idx, array)
 	}
 
 	return ret
@@ -192,9 +191,11 @@ func (pa *Array) Includes(searchElement interface{}) bool {
 // can be found in the array, or -1 if it is not present.
 func (pa *Array) IndexOf(searchElement interface{}, fromIndex int) int {
 	array := pa._array
-
+	// TODO: check fromIndex
 	if fromIndex < 0 {
-		fromIndex = len(array) + fromIndex
+		if fromIndex += len(array); fromIndex < 0 {
+			fromIndex = 0
+		}
 	}
 
 	for index, item := range array {
@@ -235,36 +236,31 @@ func (pa *Array) LastIndexOf(searchElement interface{}, fromIndex int) int {
 // from a start index (default zero) to an end index (default array length)
 // with a static value. It returns the modified array.
 func (pa *Array) Fill(value interface{}, start, end int) *Array {
-	// TODO: fill, negative start end
 	array := pa._array
 
-	if start < 0 || end > len(array) {
-		panic("jsarray Fill start must be >=0 and end must be <= array length")
+	// if start < 0 || end > len(array) {
+	// 	panic("jsarray Fill start must be >=0 and end must be <= array length")
+	// }
+
+	arrLen := len(array)
+
+	start, end = fixStartEnd(start, end, arrLen)
+
+	if start > end {
+		return pa
 	}
 
-	// if start < 0 {
-	// 	if start += arrLen; start < 0 {
-	// 		start = 0
-	// 	}
-	// }
-
-	// if end < 0 {
-	// 	end += arrLen
-	// }
-
-	// if end > arrLen {
-	// 	end = arrLen
-	// }
-
-	// if start > end {
-	// 	return array
-	// }
-
 	for index := range array {
-		if index >= start && index <= end {
+		if index >= start && index < end {
 			array[index] = value
 		}
 	}
+
+	// pCopy := make([]interface{}, end-start) //  array[start:end]
+	// for i := range pCopy {
+	// 	pCopy[i] = value
+	// }
+	// copy(array[start:], pCopy)
 
 	return pa
 }
@@ -354,29 +350,16 @@ func (pa *Array) Push(elements ...interface{}) int {
 // Slice method returns a shallow copy of a portion of an array
 // into a new array object selected from begin to end (end not included).
 // The original array will not be modified.
-func (pa *Array) Slice(begin, end int) []interface{} {
+func (pa *Array) Slice(start, end int) []interface{} {
 	arrLen := len(pa._array)
 
-	if begin < 0 {
-		if begin += arrLen; begin < 0 {
-			begin = 0
-		}
-	}
+	start, end = fixStartEnd(start, end, arrLen)
+	// fmt.Println(start, end)
 
-	if end < 0 {
-		end += arrLen
-	}
-
-	if end > arrLen {
-		end = arrLen
-	}
-
-	// fmt.Println(begin, end)
-
-	if begin > end {
+	if start > end {
 		return []interface{}{}
 	}
-	return pa._array[begin:end]
+	return pa._array[start:end]
 }
 
 // Length method returns the length of the internal array
@@ -437,8 +420,8 @@ func (pa *Array) Splice(start, deleteCount int, items ...interface{}) []interfac
 	return resArray
 }
 
-// Shuffle shuffles (randomize the order of the elements
-// in) an array (in place)
+// Shuffle shuffles (randomize the order of the elements in)
+// an array (in place)
 func (pa *Array) Shuffle() *Array {
 	array := pa._array
 	arrLen := len(array)
@@ -510,17 +493,6 @@ func (pa *Array) Concat(items ...interface{}) []interface{} {
 	resArr := pa._array
 	resArr = append(resArr, items[0].([]interface{})...)
 
-	// for _, item := range items {
-	// 	// kind := reflect.ValueOf(item).Kind()
-	// 	// if kind == reflect.Slice || kind == reflect.Array {
-	// 	// 	// appendItems(item.([]interface{}))
-	// 	// 	resArr = append(resArr, item.([]interface{}))
-	// 	// } else {
-	// 	resArr = append(resArr, item)
-	// 	// }
-	// 	// 	fmt.Println("it:", item)
-	// }
-
 	return resArr
 }
 
@@ -542,19 +514,7 @@ func (pa *Array) CopyWithin(target, start, end int) []interface{} {
 		return array
 	}
 
-	if start < 0 {
-		if start += arrLen; start < 0 {
-			start = 0
-		}
-	}
-
-	if end < 0 {
-		end += arrLen
-	}
-
-	if end > arrLen {
-		end = arrLen
-	}
+	start, end = fixStartEnd(start, end, arrLen)
 
 	if start > end {
 		return array
@@ -578,7 +538,13 @@ func (pa *Array) CopyWithin(target, start, end int) []interface{} {
 	return resArr[:arrLen]
 }
 
-// Get method gets item at specific index
+// GetItem method gets item at specific index
 func (pa *Array) GetItem(index int) interface{} {
 	return pa._array[index]
+}
+
+// SetItem method sets item value at specific index
+func (pa *Array) SetItem(index int, value interface{}) error {
+	(pa._array)[index] = value
+	return nil
 }
