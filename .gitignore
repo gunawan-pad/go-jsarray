@@ -3,4 +3,6 @@ _internal
 collection
 _js
 
+jsarray/proceduraljsa.go
+
 *.exe

@@ -43,12 +43,12 @@ func CompareArray(arrResult, arrCompare []interface{}) bool {
 	// return !reflect.DeepEqual(arrResult, arrCompare)
 	return NotEqual(arrResult, arrCompare)
 
-	for i, _ := range arrResult {
-		if arrResult[i] != arrCompare[i] {
-			return true
-		}
-	}
-	return false
+	// for i, _ := range arrResult {
+	// 	if arrResult[i] != arrCompare[i] {
+	// 		return true
+	// 	}
+	// }
+	// return false
 }
 
 func TestIndexOf(t *testing.T) {
@@ -90,10 +90,10 @@ func TestLastIndexOf(t *testing.T) {
 	}
 
 	// fmt.Println(arrResult)
-	err := false
+	// err := false
 	var arrCompare = []interface{}{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 3, 3, 5, 5, -1, -1, -1, 3, 3, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
 
-	err = CompareArray(arrResult, arrCompare)
+	err := CompareArray(arrResult, arrCompare)
 
 	if err {
 		t.Errorf("Test fails, %s", "AGLastIndexOf")
@@ -261,13 +261,13 @@ func TestSplice(t *testing.T) {
 func TestChunk(t *testing.T) {
 	arr := NewArray(array1)
 	arrResult, _ := arr.Chunk(2)
-	err2 := false
+	// err2 := false
 	// if err != nil {
 	// 	goto ERR
 	// }
 
 	fmt.Println(arrResult)
-	err2 = fmt.Sprintf("%v", arrResult) != "[[1 2] [3 4] [5 4] [6]]"
+	err2 := fmt.Sprintf("%v", arrResult) != "[[1 2] [3 4] [5 4] [6]]"
 
 	// ERR:
 	if err2 {
