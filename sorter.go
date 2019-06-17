@@ -1,5 +1,11 @@
 package jsarray
 
+// Sorter is a helper for sort method
+type Sorter struct {
+	array    []interface{}
+	lessFunc LessFunc
+}
+
 // Len is part of sort.Interface.
 func (s *Sorter) Len() int {
 	return len(s.array)
