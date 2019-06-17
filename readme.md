@@ -7,6 +7,7 @@
 
 ![golang](https://img.shields.io/badge/Go-language-blue.svg?logo=go)
 ![MIT](https://img.shields.io/badge/license-MIT-orange.svg)
+![Go Report Card](https://goreportcard.com/badge/github.com/gunawan-pad/go-jsarray)(https://goreportcard.com/report/github.com/gunawan-pad/go-jsarray)
 
 Supported methods:
 - `Chunk` -> [PHP Reference](https://www.php.net/manual/en/function.array-chunk.php)
@@ -102,11 +103,11 @@ fmt.Println(arrResult) // [2 4 6 8 10 8 12]
 ```go
 arrResult := jsarray.NewArray(array1). // initial array is [1 2 3 4 5 4 6]
 	Map(func(item interface{}, index int, array []interface{}) interface{} {
-		return item.(int) * 2 // tiap item/element array dikali 2
+		return item.(int) * 2 
 	}). // [2 4 6 8 10 8 12]
 	Filter(func(item interface{}, index int, array []interface{}) bool {
 		ii := item.(int)
-		return ii > 4 // filter item > 4
+		return ii > 4 
 	}). // [6 8 10 8 12]
 	Reverse(). // [12 8 10 8 6]
 	Sort(func(a, b interface{}) bool {
