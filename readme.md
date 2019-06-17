@@ -1,5 +1,6 @@
 ![golang](https://img.shields.io/badge/Go-language-blue.svg?logo=go)
 [![MIT](https://img.shields.io/badge/license-MIT-orange.svg)](https://github.com/gunawan-pad/go-jsarray/blob/master/LICENSE)
+[![Godoc Reference](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/gunawan-pad/go-jsarray)
 [![Go Report Card](https://goreportcard.com/badge/github.com/gunawan-pad/go-jsarray)](https://goreportcard.com/report/github.com/gunawan-pad/go-jsarray)
 
 # Go-JSArray
