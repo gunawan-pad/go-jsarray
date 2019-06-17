@@ -7,7 +7,7 @@
 
 ![golang](https://img.shields.io/badge/Go-language-blue.svg?logo=go)
 ![MIT](https://img.shields.io/badge/license-MIT-orange.svg)
-![Go Report Card](https://goreportcard.com/badge/github.com/gunawan-pad/go-jsarray)(https://goreportcard.com/report/github.com/gunawan-pad/go-jsarray)
+[![Go Report Card](https://goreportcard.com/badge/github.com/gunawan-pad/go-jsarray)](https://goreportcard.com/report/github.com/gunawan-pad/go-jsarray)
 
 Supported methods:
 - `Chunk` -> [PHP Reference](https://www.php.net/manual/en/function.array-chunk.php)

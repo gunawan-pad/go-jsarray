@@ -12,6 +12,7 @@ func MakeRange(start, length int) []int {
 	return ra
 }
 
+// IterateNestedArray iterate each element and execute the callback function
 func IterateNestedArray(
 	arrIntf []interface{},
 	actionFunc func(interface{}),

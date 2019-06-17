@@ -367,6 +367,8 @@ func (pa *Array) Length() int {
 	return len(pa._array)
 }
 
+// Splice method changes the contents of an array by removing or
+// replacing existing elements and/or adding new elements in place.
 func (pa *Array) Splice(start, deleteCount int, items ...interface{}) []interface{} {
 	arrLen := len(pa._array)
 
@@ -489,6 +491,8 @@ func (pa *Array) Split(size int) ([][]interface{}, error) {
 	return pa.Chunk(size)
 }
 
+// Concat method is used to merge two or more arrays. This method does not
+// change the existing arrays, but instead returns a new array.
 func (pa *Array) Concat(items ...interface{}) []interface{} {
 	resArr := pa._array
 	resArr = append(resArr, items[0].([]interface{})...)
