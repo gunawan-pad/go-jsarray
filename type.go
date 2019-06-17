@@ -2,25 +2,25 @@ package jsarray
 
 import "reflect"
 
-// AUForEachFunc is ForEach callback function declaration
-type AUForEachFunc func(item interface{}, index int, array []interface{})
+// ForEachFunc is ForEach callback function declaration
+type ForEachFunc func(item interface{}, index int, array []interface{})
 
-// AUFilterFunc is Filter callback function declaration
-type AUFilterFunc func(item interface{}, index int, array []interface{}) bool
+// FilterFunc is Filter callback function declaration
+type FilterFunc func(item interface{}, index int, array []interface{}) bool
 
-// AUMapFunc is Map callback function declaration
-type AUMapFunc func(item interface{}, index int, array []interface{}) interface{}
+// MapFunc is Map callback function declaration
+type MapFunc func(item interface{}, index int, array []interface{}) interface{}
 
-// AUReduceFunc is Reduce callback function declaration
-type AUReduceFunc func(accumulator, currentValue interface{}, currentIndex int, array []interface{}) interface{}
+// ReduceFunc is Reduce callback function declaration
+type ReduceFunc func(accumulator, currentValue interface{}, currentIndex int, array []interface{}) interface{}
 
-// AULessFunc is Less callback function declaration
-type AULessFunc func(firstEl, secondEl interface{}) bool
+// LessFunc is Less callback function declaration
+type LessFunc func(firstEl, secondEl interface{}) bool
 
 // Sorter is a helper for sort method
 type Sorter struct {
 	array    []interface{}
-	LessFunc AULessFunc
+	lessFunc LessFunc
 }
 
 // Array struct

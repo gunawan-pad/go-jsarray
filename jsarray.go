@@ -39,7 +39,7 @@ func (pa *Array) GetResult() []interface{} {
 
 // Map method creates a new array with the results of calling a provided function
 // on every element in the calling array.
-func (pa *Array) Map(callbackfn AUMapFunc) *Array {
+func (pa *Array) Map(callbackfn MapFunc) *Array {
 	array := pa._array
 	var returnArray = make([]interface{}, len(array))
 
@@ -52,7 +52,7 @@ func (pa *Array) Map(callbackfn AUMapFunc) *Array {
 }
 
 // ForEach method executes a provided function once for each array element.
-func (pa *Array) ForEach(callbackfn AUForEachFunc) {
+func (pa *Array) ForEach(callbackfn ForEachFunc) {
 	array := pa._array
 
 	for idx, item := range array {
@@ -62,7 +62,7 @@ func (pa *Array) ForEach(callbackfn AUForEachFunc) {
 
 // Find method returns the value of the first element in the array
 // that satisfies the provided testing function. Otherwise nil is returned.
-func (pa *Array) Find(predicate AUFilterFunc) interface{} {
+func (pa *Array) Find(predicate FilterFunc) interface{} {
 	array := pa._array
 
 	for idx, item := range array {
@@ -77,7 +77,7 @@ func (pa *Array) Find(predicate AUFilterFunc) interface{} {
 // FindIndex method returns the index of the first element in the array
 // that satisfies the provided testing function. Otherwise, it returns -1,
 // indicating that no element passed the test.
-func (pa *Array) FindIndex(predicate AUFilterFunc) int {
+func (pa *Array) FindIndex(predicate FilterFunc) int {
 	array := pa._array
 
 	for idx, item := range array {
@@ -91,7 +91,7 @@ func (pa *Array) FindIndex(predicate AUFilterFunc) int {
 
 // Filter method creates a new array with all elements that pass the test
 // implemented by the provided function
-func (pa *Array) Filter(callbackfn AUFilterFunc) *Array {
+func (pa *Array) Filter(callbackfn FilterFunc) *Array {
 
 	var returnArray []interface{}
 	array := pa._array
@@ -108,7 +108,7 @@ func (pa *Array) Filter(callbackfn AUFilterFunc) *Array {
 
 // Reduce method executes a reducer function (that you provide)
 // on each element of the array, resulting in a single output value.
-func (pa *Array) Reduce(callbackfn AUReduceFunc, initialValue interface{}) interface{} {
+func (pa *Array) Reduce(callbackfn ReduceFunc, initialValue interface{}) interface{} {
 	var ret = initialValue
 	array := pa._array
 
@@ -122,7 +122,7 @@ func (pa *Array) Reduce(callbackfn AUReduceFunc, initialValue interface{}) inter
 // ReduceRight method applies a function against an accumulator
 // and each value of the array (from right-to-left) to reduce it
 // to a single value.
-func (pa *Array) ReduceRight(callbackfn AUReduceFunc, initialValue interface{}) interface{} {
+func (pa *Array) ReduceRight(callbackfn ReduceFunc, initialValue interface{}) interface{} {
 	var ret = initialValue
 	array := pa._array
 
@@ -136,7 +136,7 @@ func (pa *Array) ReduceRight(callbackfn AUReduceFunc, initialValue interface{}) 
 // Some method tests whether at least one element in the array
 // passes the test implemented by the provided function. It returns a Boolean value.
 // Note: This method returns false for any condition put on an empty array.
-func (pa *Array) Some(callbackfn AUFilterFunc) bool {
+func (pa *Array) Some(callbackfn FilterFunc) bool {
 	array := pa._array
 
 	for idx, item := range array {
@@ -151,7 +151,7 @@ func (pa *Array) Some(callbackfn AUFilterFunc) bool {
 // Every method tests whether all elements in the array pass
 // the test implemented by the provided function. It returns a Boolean value.
 // Note: This method returns true for any condition put on an empty array.
-func (pa *Array) Every(callbackfn AUFilterFunc) bool {
+func (pa *Array) Every(callbackfn FilterFunc) bool {
 	array := pa._array
 	for idx, item := range array {
 		if !callbackfn(item, idx, array) {
@@ -292,11 +292,11 @@ func (pa *Array) Flat(depth int) *Array {
 
 // Sort method sorts the elements of an array in place and returns
 // the sorted array.
-func (pa *Array) Sort(comparefn AULessFunc) *Array {
+func (pa *Array) Sort(comparefn LessFunc) *Array {
 	array := pa._array
 
 	pa._sorter.array = array
-	pa._sorter.LessFunc = comparefn
+	pa._sorter.lessFunc = comparefn
 
 	sort.Sort(&pa._sorter)
 

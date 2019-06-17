@@ -46,7 +46,7 @@ Supported methods:
 
 ## Installation
 ```
-go get github.com/gunawan-pad/go-jsarray
+go get -u github.com/gunawan-pad/go-jsarray
 ```
 
 ## Examples

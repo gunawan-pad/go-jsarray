@@ -12,5 +12,5 @@ func (s *Sorter) Swap(i, j int) {
 
 // Less is part of sort.Interface.
 func (s *Sorter) Less(i, j int) bool {
-	return s.LessFunc(s.array[i], s.array[j])
+	return s.lessFunc(s.array[i], s.array[j])
 }
