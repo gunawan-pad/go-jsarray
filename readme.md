@@ -55,7 +55,7 @@ package main
 
 import (
     "fmt"
-    "github.com/gunawan-pad/go-jsarray/jsarray"
+    "github.com/gunawan-pad/go-jsarray"
 )
 
 var (
