@@ -1,8 +1,11 @@
 package jsarray
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -469,6 +472,563 @@ func TestArray_Concat(t *testing.T) {
 
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Array.Concat() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestJSArrayJSONFile(t *testing.T) {
+	type SongInfo struct {
+		Album  string `json:"album"`
+		Song   string `json:"song"`
+		Href   string `json:"href"`
+		ID     string `json:"id"`
+		Artist string `json:"artist"`
+	}
+	type Playlist struct {
+		Name           string     `json:"name"`
+		Image          string     `json:"image"`
+		Href           string     `json:"href"`
+		FollowersTotal int64      `json:"followersTotal"`
+		Type           string     `json:"type"`
+		ID             string     `json:"id"`
+		Tracks         []SongInfo `json:"tracks"`
+	}
+
+	var data Playlist
+
+	// Open and read json file
+	byt, err := ioutil.ReadFile(`./samples/Rock the 2000's.json`)
+	if err != nil {
+		panic(err)
+	}
+
+	err = json.Unmarshal(byt, &data)
+	if err != nil {
+		panic(err)
+	}
+
+	arr := NewArray(data.Tracks).
+		// filter tracks by artist's name started with character 'S'
+		Filter(func(item interface{}, index int, array []interface{}) bool {
+			artist := item.(SongInfo).Artist
+			return strings.HasPrefix(artist, "S")
+		}).
+		// sort tracks by song title ascending
+		Sort(func(a, b interface{}) bool {
+			sia := a.(SongInfo)
+			sib := b.(SongInfo)
+			return sia.Song < sib.Song
+		}).
+		GetResult() // Get result array
+
+	fmt.Println(arr)
+	byt, err = json.Marshal(arr)
+	if err != nil {
+		panic(err)
+	}
+
+	outFile := "./samples/testfilter.json"
+	compareFile := "./samples/testcompare.json"
+
+	// Save result array to json file: "testfilter.json"
+	ioutil.WriteFile(outFile, byt, 0777)
+
+	// compare result file
+	hashCompare, err := SHA1FileSum(compareFile)
+	if err != nil {
+		panic(err)
+	}
+	hashOut, err := SHA1FileSum(outFile)
+	if err != nil {
+		panic(err)
+	}
+
+	if hashCompare != hashOut {
+		fmt.Println(hashCompare, hashOut)
+		t.Errorf("Fail")
+	}
+}
+
+func TestArray_Reverse(t *testing.T) {
+	tests := []struct {
+		name string
+		pa   *Array
+		want *Array
+	}{
+		{
+			name: "Reverse",
+			pa:   NewArray(array1),
+			want: NewArray([]interface{}{6, 4, 5, 4, 3, 2, 1}),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.pa.Reverse(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Array.Reverse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestArray_Unique(t *testing.T) {
+	tests := []struct {
+		name string
+		pa   *Array
+		want *Array
+	}{
+		{
+			name: "Unique",
+			pa:   NewArray(array1),
+			want: NewArray([]interface{}{1, 2, 3, 4, 5, 6}),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.pa.Unique(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Array.Unique() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestArray_Pop(t *testing.T) {
+	tests := []struct {
+		name    string
+		pa      *Array
+		want    interface{}
+		content *Array
+	}{
+		{
+			name:    "Test 1",
+			pa:      NewArray(array1),
+			want:    6,
+			content: NewArray([]interface{}{1, 2, 3, 4, 5, 4}),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := tt.pa.Pop()
+			content := tt.pa
+
+			if !reflect.DeepEqual(got, tt.want) || (!reflect.DeepEqual(content, tt.content)) {
+				t.Errorf("Array.Pop() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestArray_Push(t *testing.T) {
+	type args struct {
+		elements []interface{}
+	}
+	tests := []struct {
+		name    string
+		pa      *Array
+		args    args
+		want    int
+		content string
+	}{
+		{
+			name:    "Test 1",
+			pa:      NewArray(array1),
+			args:    args{elements: []interface{}{7, []interface{}{8, 9}}},
+			want:    9,
+			content: "[1 2 3 4 5 4 6 7 [8 9]]",
+		},
+		{
+			name:    "Test 2",
+			pa:      NewArray(array1),
+			args:    args{elements: []interface{}{7, 8, 9}},
+			want:    10,
+			content: "[1 2 3 4 5 4 6 7 8 9]",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := tt.pa.Push(tt.args.elements...)
+			content := fmt.Sprintf("%v", tt.pa.GetResult())
+
+			if got != tt.want || (!reflect.DeepEqual(content, tt.content)) {
+				t.Errorf("Array.Push() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestArray_Every(t *testing.T) {
+	type args struct {
+		callbackfn FilterFunc
+	}
+	tests := []struct {
+		name string
+		pa   *Array
+		args args
+		want bool
+	}{
+		// TODO: Add test cases.
+		{
+			name: "Test 1",
+			pa:   NewArray(array1),
+			args: args{
+				callbackfn: func(item interface{}, index int, array []interface{}) bool {
+					return item.(int) > 0
+				}},
+			want: true,
+		},
+		{
+			name: "Test 1",
+			pa:   NewArray(array1),
+			args: args{
+				callbackfn: func(item interface{}, index int, array []interface{}) bool {
+					return item.(int) > 4
+				}},
+			want: false,
+		},
+		{
+			name: "Test 2",
+			pa:   NewArray([]int{}),
+			args: args{
+				callbackfn: func(item interface{}, index int, array []interface{}) bool {
+					return item.(int) < 0
+				}},
+			want: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.pa.Every(tt.args.callbackfn); got != tt.want {
+				t.Errorf("Array.Every() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestArray_Some(t *testing.T) {
+	type args struct {
+		callbackfn FilterFunc
+	}
+	tests := []struct {
+		name string
+		pa   *Array
+		args args
+		want bool
+	}{
+		// TODO: Add test cases.
+		{
+			name: "Test 1",
+			pa:   NewArray(array1),
+			args: args{
+				callbackfn: func(item interface{}, index int, array []interface{}) bool {
+					return item.(int) > 0
+				}},
+			want: true,
+		},
+		{
+			name: "Test 1",
+			pa:   NewArray(array1),
+			args: args{
+				callbackfn: func(item interface{}, index int, array []interface{}) bool {
+					return item.(int) > 4
+				}},
+			want: true,
+		},
+		{
+			name: "Test 1",
+			pa:   NewArray(array1),
+			args: args{
+				callbackfn: func(item interface{}, index int, array []interface{}) bool {
+					return item.(int) > 100
+				}},
+			want: false,
+		},
+		{
+			name: "Test 2",
+			pa:   NewArray([]int{}),
+			args: args{
+				callbackfn: func(item interface{}, index int, array []interface{}) bool {
+					return item.(int) < 0
+				}},
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.pa.Some(tt.args.callbackfn); got != tt.want {
+				t.Errorf("Array.Every() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestArray_SetItem(t *testing.T) {
+	type args struct {
+		index int
+		value interface{}
+	}
+	tests := []struct {
+		name    string
+		pa      *Array
+		args    args
+		wantErr bool
+		content []interface{}
+	}{
+		{
+			name:    "Test 1",
+			pa:      NewArray(array1),
+			args:    args{index: 1, value: 111},
+			wantErr: false,
+			content: []interface{}{1, 111, 3, 4, 5, 4, 6},
+		},
+		{
+			name:    "Test 2",
+			pa:      NewArray(array1),
+			args:    args{index: 11, value: 111},
+			wantErr: true,
+			content: []interface{}{1, 2, 3, 4, 5, 4, 6},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := tt.pa.SetItem(tt.args.index, tt.args.value)
+			content := tt.pa.GetResult()
+
+			if (err != nil) != tt.wantErr || (!reflect.DeepEqual(content, tt.content)) {
+				t.Errorf("Array.SetItem() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestArray_Reduce(t *testing.T) {
+	type args struct {
+		callbackfn   ReduceFunc
+		initialValue interface{}
+	}
+	tests := []struct {
+		name string
+		pa   *Array
+		args args
+		want interface{}
+	}{
+		{
+			name: "test 1",
+			pa:   NewArray(array1),
+			args: args{
+				callbackfn: func(accumulator, currentVal interface{},
+					curIndex int, array []interface{}) interface{} {
+					return fmt.Sprintf("%s%d", accumulator.(string), currentVal.(int))
+				},
+				initialValue: "",
+			},
+			want: interface{}("1234546"),
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.pa.Reduce(tt.args.callbackfn, tt.args.initialValue); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Array.Reduce() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestArray_Shift(t *testing.T) {
+	tests := []struct {
+		name    string
+		pa      *Array
+		want    interface{}
+		content []interface{}
+	}{
+		{
+			name:    "test1",
+			pa:      NewArray(array1),
+			want:    1,
+			content: []interface{}{2, 3, 4, 5, 4, 6},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := tt.pa.Shift()
+			content := tt.pa.GetResult()
+
+			if !reflect.DeepEqual(got, tt.want) || (!reflect.DeepEqual(content, tt.content)) {
+				t.Errorf("Array.Shift() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestArray_Unshift(t *testing.T) {
+	type args struct {
+		elements []interface{}
+	}
+	tests := []struct {
+		name    string
+		pa      *Array
+		args    args
+		want    int
+		content []interface{}
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test1",
+			pa:   NewArray(array1),
+			args: args{
+				elements: []interface{}{99, 100},
+			},
+			want:    9,
+			content: []interface{}{99, 100, 1, 2, 3, 4, 5, 4, 6},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := tt.pa.Unshift(tt.args.elements...)
+			content := tt.pa.GetResult()
+
+			if got != tt.want {
+				t.Errorf("Array.Unshift() = %v, want %v", got, tt.want)
+			}
+
+			if !reflect.DeepEqual(content, tt.content) {
+				t.Errorf("Array.Unshift() = %v, want %v", content, tt.content)
+			}
+		})
+	}
+}
+
+func TestArray_ForEach(t *testing.T) {
+	results := []int{}
+
+	type args struct {
+		callbackfn ForEachFunc
+	}
+	tests := []struct {
+		name string
+		pa   *Array
+		args args
+	}{
+		{
+			name: "test1",
+			pa:   NewArray(array1),
+			args: args{
+				callbackfn: func(el interface{}, i int, arr []interface{}) {
+					results = append(results, i)
+					i++
+				},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.pa.ForEach(tt.args.callbackfn)
+			if !reflect.DeepEqual(results, []int{0, 1, 2, 3, 4, 5, 6}) {
+				t.Errorf("Fail")
+			}
+		})
+	}
+}
+
+func TestArray_Find(t *testing.T) {
+	type args struct {
+		predicate FilterFunc
+	}
+	tests := []struct {
+		name string
+		pa   *Array
+		args args
+		want interface{}
+	}{
+		{
+			name: "test2",
+			pa:   NewArray(array1),
+			args: args{
+				predicate: func(el interface{}, i int, array []interface{}) bool {
+					return el.(int) > 3
+				},
+			},
+			want: 4,
+		},
+		{
+			name: "test2",
+			pa:   NewArray(array1),
+			args: args{
+				predicate: func(el interface{}, i int, array []interface{}) bool {
+					return el.(int) > 100
+				},
+			},
+			want: nil,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.pa.Find(tt.args.predicate); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Array.Find() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestArray_FindIndex(t *testing.T) {
+	type args struct {
+		predicate FilterFunc
+	}
+	tests := []struct {
+		name string
+		pa   *Array
+		args args
+		want int
+	}{
+		{
+			name: "test2",
+			pa:   NewArray(array1),
+			args: args{
+				predicate: func(el interface{}, i int, array []interface{}) bool {
+					return el.(int) > 3
+				},
+			},
+			want: 3,
+		},
+		{
+			name: "test2",
+			pa:   NewArray(array1),
+			args: args{
+				predicate: func(el interface{}, i int, array []interface{}) bool {
+					return el.(int) < 0
+				},
+			},
+			want: -1,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.pa.FindIndex(tt.args.predicate); got != tt.want {
+				t.Errorf("Array.FindIndex() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestArray_Shuffle(t *testing.T) {
+	tests := []struct {
+		name string
+		pa   *Array
+		want *Array
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test1",
+			pa:   NewArray(array1),
+			want: NewArray(array1),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.pa.Shuffle(); reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Array.Shuffle() = %v, want %v", got, tt.want)
 			}
 		})
 	}

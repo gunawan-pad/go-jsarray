@@ -1,6 +1,12 @@
 package jsarray
 
-import "reflect"
+import (
+	"crypto/sha1"
+	"fmt"
+	"io"
+	"os"
+	"reflect"
+)
 
 // MakeRange creates array of int from start to length -1
 func MakeRange(start, length int) []int {
@@ -92,4 +98,20 @@ func createArrayTest(maxIteration int,
 	}
 
 	return methodResults, jsarrResults
+}
+
+// SHA1FileSum creates SHA1 sum of a file
+func SHA1FileSum(file string) (string, error) {
+	f, err := os.Open(file)
+	if err != nil {
+		return "", err
+	}
+	defer f.Close()
+
+	h := sha1.New()
+	if _, err := io.Copy(h, f); err != nil {
+		return "", err
+	}
+
+	return fmt.Sprintf("%x", h.Sum(nil)), nil
 }

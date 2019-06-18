@@ -6,3 +6,4 @@ _js
 jsarray/proceduraljsa.go
 
 *.exe
+*.bak

@@ -1,7 +1,5 @@
 package jsarray
 
-import "reflect"
-
 // ForEachFunc is ForEach callback function type
 type ForEachFunc func(item interface{}, index int, array []interface{})
 
@@ -18,12 +16,15 @@ type ReduceFunc func(accumulator, currentValue interface{}, currentIndex int, ar
 type LessFunc func(firstEl, secondEl interface{}) bool
 
 // Array struct
-type Array struct {
-	_array []interface{}
-	_type  reflect.Type
+// type Array struct {
+// 	_array []interface{}
+// 	_type  reflect.Type
 
-	_sorter Sorter
-}
+// 	_sorter Sorter
+// }
 
-type Itf interface{}
-type Aritf []Itf
+// Array type
+type Array []interface{}
+
+// type Itf interface{}
+// type Aritf []Itf

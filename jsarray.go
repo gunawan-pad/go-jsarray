@@ -10,50 +10,54 @@ import (
 	"time"
 )
 
-// NewArray is constructor, creates Array from array of any type
+// NewArray is constructor, creates a Array from array of any type
 func NewArray(array interface{}) *Array {
 	// kind: array item data type
-	arrInterface, ok, reflType := ConvertInterfaceToArrayInterface(array)
+
+	// create an array copy
+	arrInterface, ok, _ := ConvertInterfaceToArrayInterface(array)
 	if !ok {
 		log.Fatal("Error jsarray.NewArray conversion to []interface{}")
 	}
-
-	return &Array{
-		_array: arrInterface,
-		_type:  reflType,
-	}
+	return (*Array)(&arrInterface)
 }
 
-// NewArrayFromInterfaceArray is constructor, creates Array from array of interface
-func NewArrayFromInterfaceArray(array []interface{}) *Array {
-	return &Array{
-		_array: array,
-		_type:  nil,
+// NewArrayFromInterfaceArray is constructor, creates a Array from array of interface
+func NewArrayFromInterfaceArray(array []interface{} /*, dontCreateCopy bool*/) *Array {
+	dontCreateCopy := false
+
+	var arrayCopy []interface{}
+	if !dontCreateCopy {
+		// create an array copy
+		arrayCopy = make([]interface{}, len(array))
+		copy(arrayCopy, array)
+	} else {
+		// Used as reference
+		arrayCopy = array
 	}
+	return (*Array)(&arrayCopy)
 }
 
 // GetResult to get the result/internal array (array of interface{})
 func (pa *Array) GetResult() []interface{} {
-	return pa._array
+	return *pa
 }
 
 // Map method creates a new array with the results of calling a provided function
 // on every element in the calling array.
 func (pa *Array) Map(callbackfn MapFunc) *Array {
-	array := pa._array
-	var returnArray = make([]interface{}, len(array))
-
-	for idx, item := range array {
-		returnArray[idx] = callbackfn(item, idx, array)
+	// arrLen := len(*pa)
+	ra := *pa // make([]interface{}, arrLen)
+	for i, v := range *pa {
+		ra[i] = callbackfn(v, i, *pa)
 	}
 
-	pa._array = returnArray
-	return pa
+	return pa // (*Array)(&ra)
 }
 
 // ForEach method executes a provided function once for each array element.
 func (pa *Array) ForEach(callbackfn ForEachFunc) {
-	array := pa._array
+	array := *pa
 
 	for idx, item := range array {
 		callbackfn(item, idx, array)
@@ -63,7 +67,7 @@ func (pa *Array) ForEach(callbackfn ForEachFunc) {
 // Find method returns the value of the first element in the array
 // that satisfies the provided testing function. Otherwise nil is returned.
 func (pa *Array) Find(predicate FilterFunc) interface{} {
-	array := pa._array
+	array := *pa
 
 	for idx, item := range array {
 		if predicate(item, idx, array) {
@@ -78,7 +82,7 @@ func (pa *Array) Find(predicate FilterFunc) interface{} {
 // that satisfies the provided testing function. Otherwise, it returns -1,
 // indicating that no element passed the test.
 func (pa *Array) FindIndex(predicate FilterFunc) int {
-	array := pa._array
+	array := *pa
 
 	for idx, item := range array {
 		if predicate(item, idx, array) {
@@ -94,7 +98,7 @@ func (pa *Array) FindIndex(predicate FilterFunc) int {
 func (pa *Array) Filter(callbackfn FilterFunc) *Array {
 
 	var returnArray []interface{}
-	array := pa._array
+	array := *pa
 
 	for idx, item := range array {
 		if callbackfn(item, idx, array) {
@@ -102,7 +106,7 @@ func (pa *Array) Filter(callbackfn FilterFunc) *Array {
 		}
 	}
 
-	pa._array = returnArray
+	*pa = returnArray
 	return pa
 }
 
@@ -110,7 +114,7 @@ func (pa *Array) Filter(callbackfn FilterFunc) *Array {
 // on each element of the array, resulting in a single output value.
 func (pa *Array) Reduce(callbackfn ReduceFunc, initialValue interface{}) interface{} {
 	var ret = initialValue
-	array := pa._array
+	array := *pa
 
 	for idx, item := range array {
 		ret = callbackfn(ret, item, idx, array)
@@ -124,7 +128,7 @@ func (pa *Array) Reduce(callbackfn ReduceFunc, initialValue interface{}) interfa
 // to a single value.
 func (pa *Array) ReduceRight(callbackfn ReduceFunc, initialValue interface{}) interface{} {
 	var ret = initialValue
-	array := pa._array
+	array := *pa
 
 	for idx := len(array) - 1; idx >= 0; idx-- {
 		ret = callbackfn(ret, array[idx], idx, array)
@@ -137,7 +141,7 @@ func (pa *Array) ReduceRight(callbackfn ReduceFunc, initialValue interface{}) in
 // passes the test implemented by the provided function. It returns a Boolean value.
 // Note: This method returns false for any condition put on an empty array.
 func (pa *Array) Some(callbackfn FilterFunc) bool {
-	array := pa._array
+	array := *pa
 
 	for idx, item := range array {
 		if callbackfn(item, idx, array) {
@@ -152,7 +156,7 @@ func (pa *Array) Some(callbackfn FilterFunc) bool {
 // the test implemented by the provided function. It returns a Boolean value.
 // Note: This method returns true for any condition put on an empty array.
 func (pa *Array) Every(callbackfn FilterFunc) bool {
-	array := pa._array
+	array := *pa
 	for idx, item := range array {
 		if !callbackfn(item, idx, array) {
 			return false
@@ -166,7 +170,7 @@ func (pa *Array) Every(callbackfn FilterFunc) bool {
 // all of the elements in an array (or an array-like object), separated by separator string.
 // If the array has only one item, then that item will be returned without using the separator.
 func (pa *Array) Join(separator string) string {
-	array := pa._array
+	array := *pa
 	// var ret bytes.Buffer
 	var ret strings.Builder
 	del := ""
@@ -190,7 +194,7 @@ func (pa *Array) Includes(searchElement interface{}) bool {
 // IndexOf method returns the first index at which a given element
 // can be found in the array, or -1 if it is not present.
 func (pa *Array) IndexOf(searchElement interface{}, fromIndex int) int {
-	array := pa._array
+	array := *pa
 	// TODO: check fromIndex
 	if fromIndex < 0 {
 		if fromIndex += len(array); fromIndex < 0 {
@@ -211,7 +215,7 @@ func (pa *Array) IndexOf(searchElement interface{}, fromIndex int) int {
 // can be found in the array, or -1 if it is not present. The array is
 // searched backwards, starting at fromIndex.
 func (pa *Array) LastIndexOf(searchElement interface{}, fromIndex int) int {
-	array := pa._array
+	array := *pa
 	arrLen := len(array)
 
 	if fromIndex > (arrLen - 1) {
@@ -236,7 +240,7 @@ func (pa *Array) LastIndexOf(searchElement interface{}, fromIndex int) int {
 // from a start index (default zero) to an end index (default array length)
 // with a static value. It returns the modified array.
 func (pa *Array) Fill(value interface{}, start, end int) *Array {
-	array := pa._array
+	array := *pa
 
 	// if start < 0 || end > len(array) {
 	// 	panic("jsarray Fill start must be >=0 and end must be <= array length")
@@ -268,7 +272,7 @@ func (pa *Array) Fill(value interface{}, start, end int) *Array {
 // Reverse method reverses an array in place. The first array element
 // becomes the last, and the last array element becomes the first.
 func (pa *Array) Reverse() *Array {
-	array := pa._array
+	array := *pa
 	var returnArray = make([]interface{}, len(array))
 
 	j := 0
@@ -277,15 +281,15 @@ func (pa *Array) Reverse() *Array {
 		j++
 	}
 
-	pa._array = returnArray
+	*pa = returnArray
 	return pa
 }
 
 // Flat method creates a new array with all sub-array elements concatenated
 // into it recursively up to the specified depth.
 func (pa *Array) Flat(depth int) *Array {
-	res := FlatArray(pa._array, depth)
-	pa._array = res
+	res := FlatArray(*pa, depth)
+	*pa = res
 
 	return pa
 }
@@ -293,12 +297,13 @@ func (pa *Array) Flat(depth int) *Array {
 // Sort method sorts the elements of an array in place and returns
 // the sorted array.
 func (pa *Array) Sort(comparefn LessFunc) *Array {
-	array := pa._array
+	// sorter := new(Sorter)
+	sorter := &Sorter{
+		array:    *pa,
+		lessFunc: comparefn,
+	}
 
-	pa._sorter.array = array
-	pa._sorter.lessFunc = comparefn
-
-	sort.Sort(&pa._sorter)
+	sort.Sort(sorter)
 
 	return pa
 }
@@ -306,12 +311,12 @@ func (pa *Array) Sort(comparefn LessFunc) *Array {
 // Shift method removes the first element from an array and returns
 // that removed element. This method changes the length of the array.
 func (pa *Array) Shift() interface{} {
-	if len(pa._array) == 0 {
+	if len(*pa) == 0 {
 		return nil
 	}
 
-	ret := pa._array[0]
-	pa._array = pa._array[1:]
+	ret := (*pa)[0]
+	*pa = (*pa)[1:]
 
 	return ret
 }
@@ -319,22 +324,22 @@ func (pa *Array) Shift() interface{} {
 // Unshift method adds one or more elements to the beginning of an array
 // and returns the new length of the array.
 func (pa *Array) Unshift(elements ...interface{}) int {
-	pa._array = append(elements, pa._array...)
+	*pa = append(elements, *pa...)
 
-	return len(pa._array)
+	return len(*pa)
 }
 
 // Pop method removes the last element from an array and
 // returns that element. This method changes the length of the array.
 func (pa *Array) Pop() interface{} {
 
-	if len(pa._array) == 0 {
+	if len(*pa) == 0 {
 		return nil
 	}
 
-	pos := len(pa._array) - 1
-	ret := pa._array[pos]
-	pa._array = pa._array[:pos]
+	pos := len(*pa) - 1
+	ret := (*pa)[pos]
+	*pa = (*pa)[:pos]
 
 	return ret
 }
@@ -342,16 +347,16 @@ func (pa *Array) Pop() interface{} {
 // Push method adds one or more elements to the end of an array and
 // returns the new length of the array.
 func (pa *Array) Push(elements ...interface{}) int {
-	pa._array = append(pa._array, elements...)
+	*pa = append(*pa, elements...)
 
-	return len(pa._array)
+	return len(*pa)
 }
 
 // Slice method returns a shallow copy of a portion of an array
 // into a new array object selected from begin to end (end not included).
 // The original array will not be modified.
 func (pa *Array) Slice(start, end int) []interface{} {
-	arrLen := len(pa._array)
+	arrLen := len(*pa)
 
 	start, end = fixStartEnd(start, end, arrLen)
 	// fmt.Println(start, end)
@@ -359,18 +364,18 @@ func (pa *Array) Slice(start, end int) []interface{} {
 	if start > end {
 		return []interface{}{}
 	}
-	return pa._array[start:end]
+	return (*pa)[start:end]
 }
 
 // Length method returns the length of the internal array
 func (pa *Array) Length() int {
-	return len(pa._array)
+	return len(*pa)
 }
 
 // Splice method changes the contents of an array by removing or
 // replacing existing elements and/or adding new elements in place.
 func (pa *Array) Splice(start, deleteCount int, items ...interface{}) []interface{} {
-	arrLen := len(pa._array)
+	arrLen := len(*pa)
 
 	if start < 0 {
 		if start += arrLen; start < 0 {
@@ -403,29 +408,29 @@ func (pa *Array) Splice(start, deleteCount int, items ...interface{}) []interfac
 		b = 0
 	}
 
-	resArray := pa._array[a:b]
+	resArray := (*pa)[a:b]
 
 	// remainArray := []interface{}{}
-	// remainArray = append(remainArray, pa._array[0:a]...)
+	// remainArray = append(remainArray, (*pa)[0:a]...)
 	// remainArray = append(remainArray, items...)
-	// remainArray = append(remainArray, pa._array[b:]...)
+	// remainArray = append(remainArray, (*pa)[b:]...)
 
 	// faster
-	l1, l2, l3 := len(pa._array[0:a]), len(items), len(pa._array[b:])
+	l1, l2, l3 := len((*pa)[0:a]), len(items), len((*pa)[b:])
 	newLen := l1 + l2 + l3
 	remainArray := make([]interface{}, newLen)
-	copy(remainArray[0:l1], pa._array[0:a])
+	copy(remainArray[0:l1], (*pa)[0:a])
 	copy(remainArray[l1:l1+l2], items)
-	copy(remainArray[l1+l2:newLen], pa._array[b:])
+	copy(remainArray[l1+l2:newLen], (*pa)[b:])
 
-	pa._array = remainArray
+	*pa = remainArray
 	return resArray
 }
 
 // Shuffle shuffles (randomize the order of the elements in)
 // an array (in place)
 func (pa *Array) Shuffle() *Array {
-	array := pa._array
+	array := *pa
 	arrLen := len(array)
 	r := rand.New(rand.NewSource(time.Now().Unix()))
 
@@ -440,8 +445,8 @@ func (pa *Array) Shuffle() *Array {
 
 // Unique method remove duplicate values from an array.
 func (pa *Array) Unique() *Array {
-	arrLen := len(pa._array)
-	array := pa._array
+	arrLen := len(*pa)
+	array := *pa
 	uniqArr := make([]interface{}, arrLen)
 	set := make(map[interface{}]bool)
 
@@ -454,7 +459,7 @@ func (pa *Array) Unique() *Array {
 		}
 	}
 
-	pa._array = uniqArr[:j:j]
+	*pa = uniqArr[:j:j]
 	return pa
 }
 
@@ -466,7 +471,7 @@ func (pa *Array) Chunk(size int) ([][]interface{}, error) {
 		return nil, errors.New("Array.Chunk size value must be > 0")
 	}
 
-	array := pa._array
+	array := *pa
 	arrLen := len(array)
 	chunkedLen := (arrLen / size) + (arrLen % size)
 	chunked := make([][]interface{}, chunkedLen)
@@ -494,7 +499,7 @@ func (pa *Array) Split(size int) ([][]interface{}, error) {
 // Concat method is used to merge two or more arrays. This method does not
 // change the existing arrays, but instead returns a new array.
 func (pa *Array) Concat(items ...interface{}) []interface{} {
-	resArr := pa._array
+	resArr := *pa
 	resArr = append(resArr, items[0].([]interface{})...)
 
 	return resArr
@@ -506,7 +511,7 @@ func (pa *Array) Concat(items ...interface{}) []interface{} {
 // The CopyWithin method is a mutable method. It does not alter the length
 // of the array, but it will change its content if necessary.
 func (pa *Array) CopyWithin(target, start, end int) []interface{} {
-	array := pa._array
+	array := *pa
 	arrLen := len(array)
 
 	if target < 0 {
@@ -529,7 +534,7 @@ func (pa *Array) CopyWithin(target, start, end int) []interface{} {
 
 	// resArr := make([]interface{}, len(array))
 	// copy(resArr, array)
-	resArr := array // in place, pa._array modified
+	resArr := array // in place, *pa modified
 	copy(resArr[target:], pCopy)
 
 	// p1 := array[0:target]
@@ -544,11 +549,14 @@ func (pa *Array) CopyWithin(target, start, end int) []interface{} {
 
 // GetItem method gets item at specific index
 func (pa *Array) GetItem(index int) interface{} {
-	return pa._array[index]
+	return (*pa)[index]
 }
 
 // SetItem method sets item value at specific index
 func (pa *Array) SetItem(index int, value interface{}) error {
-	(pa._array)[index] = value
+	if index < 0 || index > len(*pa) {
+		return errors.New("index out of range")
+	}
+	(*pa)[index] = value
 	return nil
 }
