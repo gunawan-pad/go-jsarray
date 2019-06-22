@@ -99,6 +99,31 @@ arrResult := arr.Map(callbackfn).GetResult()
 fmt.Println(arrResult) // [2 4 6 8 10 8 12]
 ```
 
+### Declaration
+```go
+arr := jsarray.NewArray(array1)
+// or
+arr := jsarray.NewArrayFromInterfaceArray(array2)
+// or
+arr := jsarray.Array{1, 2, 3, 4, 5, 4, 6}
+// or
+arr := (jsarray.Array)(array2)
+// or
+arr := (jsarray.Array)([]interface{}{1, 2, 3, 4, 5, 4, 6})
+```
+
+### Casting
+```go
+arr := jsarray.Array{1, 2, 3, 4, 5, 4, 6}
+arr.Shuffle()
+// do other things ...
+
+var arrItf []interface{}
+arrItf = ([]interface{})(arr)
+
+fmt.Printf("%d", arrItf[0]) 
+```
+
 ### Method chaining
 
 ```go

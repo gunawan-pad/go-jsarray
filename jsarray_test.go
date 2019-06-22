@@ -345,7 +345,6 @@ func TestArray_CopyWithin(t *testing.T) {
 		args args
 		want []interface{}
 	}{
-		// TODO: Add test cases.
 		{
 			name: "test 1",
 			pa:   NewArray(array1),
@@ -768,34 +767,47 @@ func TestArray_SetItem(t *testing.T) {
 		value interface{}
 	}
 	tests := []struct {
-		name    string
-		pa      *Array
-		args    args
-		wantErr bool
-		content []interface{}
+		name        string
+		pa          *Array
+		args        args
+		shouldPanic bool
+		content     []interface{}
 	}{
 		{
-			name:    "Test 1",
-			pa:      NewArray(array1),
-			args:    args{index: 1, value: 111},
-			wantErr: false,
-			content: []interface{}{1, 111, 3, 4, 5, 4, 6},
+			name:        "Test 1",
+			pa:          NewArray(array1),
+			args:        args{index: 1, value: 111},
+			shouldPanic: false,
+			content:     []interface{}{1, 111, 3, 4, 5, 4, 6},
 		},
 		{
-			name:    "Test 2",
-			pa:      NewArray(array1),
-			args:    args{index: 11, value: 111},
-			wantErr: true,
-			content: []interface{}{1, 2, 3, 4, 5, 4, 6},
+			name:        "Test 2",
+			pa:          NewArray(array1),
+			args:        args{index: len(array1), value: 111},
+			shouldPanic: true,
+			content:     []interface{}{1, 2, 3, 4, 5, 4, 6},
+		},
+		{
+			name:        "Test 2",
+			pa:          NewArray(array1),
+			args:        args{index: -1, value: 111},
+			shouldPanic: true,
+			content:     []interface{}{1, 2, 3, 4, 5, 4, 6},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			err := tt.pa.SetItem(tt.args.index, tt.args.value)
+			defer func() {
+				if rec := recover(); rec == nil && tt.shouldPanic {
+					t.Errorf("Fail, should panic")
+				}
+			}()
+
+			tt.pa.SetItem(tt.args.index, tt.args.value)
 			content := tt.pa.GetResult()
 
-			if (err != nil) != tt.wantErr || (!reflect.DeepEqual(content, tt.content)) {
-				t.Errorf("Array.SetItem() error = %v, wantErr %v", err, tt.wantErr)
+			if !reflect.DeepEqual(content, tt.content) {
+				t.Errorf("Array.SetItem() content = %v, wantContent %v", content, tt.content)
 			}
 		})
 	}
@@ -886,7 +898,7 @@ func TestArray_Unshift(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := tt.pa.Unshift(tt.args.elements...)
-			content := tt.pa.GetResult()
+			content := ([]interface{})(*tt.pa) // .GetResult()
 
 			if got != tt.want {
 				t.Errorf("Array.Unshift() = %v, want %v", got, tt.want)
@@ -1031,5 +1043,20 @@ func TestArray_Shuffle(t *testing.T) {
 				t.Errorf("Array.Shuffle() = %v, want %v", got, tt.want)
 			}
 		})
+	}
+}
+
+func TestDeclaration(t *testing.T) {
+	arr := NewArray(array1)
+	arr = NewArrayFromInterfaceArray(array2)
+	arr = &Array{1, 2, 3, 4, 5, 6}
+
+	arr.Sort(func(a, b interface{}) bool {
+		return a.(int) > b.(int)
+	})
+
+	// fmt.Println(arr.GetArray())
+	if got := arr.GetResult(); !reflect.DeepEqual(got, []interface{}{6, 5, 4, 3, 2, 1}) {
+		t.Errorf("Fail %v", arr.GetArray())
 	}
 }

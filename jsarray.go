@@ -39,7 +39,13 @@ func NewArrayFromInterfaceArray(array []interface{} /*, dontCreateCopy bool*/) *
 }
 
 // GetResult to get the result/internal array (array of interface{})
+// (Obsolete, use GetArray method instead)
 func (pa *Array) GetResult() []interface{} {
+	return *pa
+}
+
+// GetArray to get the result/internal array (array of interface{})
+func (pa *Array) GetArray() []interface{} {
 	return *pa
 }
 
@@ -222,7 +228,9 @@ func (pa *Array) LastIndexOf(searchElement interface{}, fromIndex int) int {
 		fromIndex = arrLen - 1
 	}
 	if fromIndex < 0 {
-		fromIndex += arrLen
+		if fromIndex += arrLen; fromIndex < 0 {
+			return -1
+		}
 	}
 
 	// fmt.Printf("fi:%d\n", fromIndex)
@@ -553,10 +561,10 @@ func (pa *Array) GetItem(index int) interface{} {
 }
 
 // SetItem method sets item value at specific index
-func (pa *Array) SetItem(index int, value interface{}) error {
-	if index < 0 || index > len(*pa) {
-		return errors.New("index out of range")
-	}
+func (pa *Array) SetItem(index int, value interface{}) {
+	// if index < 0 || index > len(*pa) {
+	// 	return errors.New("index out of range")
+	// }
 	(*pa)[index] = value
-	return nil
+	// return nil
 }
