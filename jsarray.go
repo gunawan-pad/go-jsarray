@@ -39,7 +39,6 @@ func NewArrayFromInterfaceArray(array []interface{} /*, dontCreateCopy bool*/) *
 }
 
 // GetResult to get the result/internal array (array of interface{})
-// (Obsolete, use GetArray method instead)
 func (pa *Array) GetResult() []interface{} {
 	return *pa
 }
