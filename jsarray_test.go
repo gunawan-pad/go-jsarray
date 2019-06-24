@@ -94,7 +94,8 @@ func TestLastIndexOf(t *testing.T) {
 
 	// fmt.Println(arrResult)
 	// err := false
-	var arrCompare = []interface{}{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 3, 3, 5, 5, -1, -1, -1, 3, 3, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
+	var arrCompare = []interface{}{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+		3, 3, 5, 5, -1, -1, -1, 3, 3, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
 
 	err := CompareArray(arrResult, arrCompare)
 

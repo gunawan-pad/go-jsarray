@@ -105,11 +105,11 @@ arr := jsarray.NewArray(array1)
 // or
 arr := jsarray.NewArrayFromInterfaceArray(array2)
 // or
-arr := jsarray.Array{1, 2, 3, 4, 5, 4, 6}
+arr := &jsarray.Array{1, 2, 3, 4, 5, 4, 6}
 // or
-arr := (jsarray.Array)(array2)
+arr := (*jsarray.Array)(&array2)
 // or
-arr := (jsarray.Array)([]interface{}{1, 2, 3, 4, 5, 4, 6})
+arr := (*jsarray.Array)(&[]interface{}{1, 2, 3, 4, 5, 4, 6})
 ```
 
 ### Casting
